@@ -26,6 +26,7 @@ double CNT = 500;
 int turn =0;
 double currentsp = 0;
 int sec = 0,tct = 0;
+int temp=0;
 //PinpointI2C pinpoint(&hi2c1);
 //PinpointI2C::BulkData bd;
 
@@ -44,7 +45,7 @@ void StartDefaultTask(void *argument)
     pinpoint_init();
 //    HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_1);
 //    HAL_TIM_Encoder_Start(&htim2, TIM_CHANNEL_ALL);
-//    trace_init();
+    trace_init();
 
     for(;;)
     {
@@ -60,6 +61,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	{
 		sec++;
 		tct++;
+		temp++;
 //		chassis_monitor();
 		chassis_set_speed(vx, vy, vz);
 		update_pinpoint_pose();

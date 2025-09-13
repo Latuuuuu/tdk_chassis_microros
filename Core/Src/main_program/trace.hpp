@@ -10,6 +10,7 @@ extern "C" {
 #include "stm32f4xx.h"
 #include "stm32f4xx_it.h"
 #include "stm32f446xx.h"
+#include <stdbool.h>
 
 /*-----------Front------------*/
 /*          0   Right         */
@@ -25,16 +26,17 @@ extern "C" {
 
 // TODO: trace_check_point
 
-#define w_kp 0.21
-#define w_kd 0
+
 
 extern ADC_HandleTypeDef hadc1;
 extern uint16_t adcRead[7];
 
 
 void   trace_init();            // Initialize infrared sensor
-double trace_straight_line();   // Output: the rotation speed. Compute the offset from straight line
+float trace_transfer();   // Output: the rotation speed. Compute the offset from straight line
+void trace_line(float vy);
 void   trace_check_point();     // Check if the car reach the check point and refresh the current true location
+bool intersection_check(int type);
 
 #ifdef __cplusplus
 }

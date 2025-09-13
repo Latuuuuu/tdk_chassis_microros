@@ -1,3 +1,4 @@
-../Core/Inc/Control_Lib/Pinpoint/Src/Pinpoint_monitor.cpp:14:7:void pinpoint_init()	1
-../Core/Inc/Control_Lib/Pinpoint/Src/Pinpoint_monitor.cpp:36:6:void pinpoint_monitor()	3
-../Core/Inc/Control_Lib/Pinpoint/Src/Pinpoint_monitor.cpp:53:6:void update_pinpoint_pose()	1
+../Core/Inc/Control_Lib/Pinpoint/Src/Pinpoint_monitor.cpp:20:7:void pinpoint_init()	1
+../Core/Inc/Control_Lib/Pinpoint/Src/Pinpoint_monitor.cpp:42:6:void pinpoint_monitor()	4
+../Core/Inc/Control_Lib/Pinpoint/Src/Pinpoint_monitor.cpp:63:6:void relocateRobot(float, float, float)	2
+../Core/Inc/Control_Lib/Pinpoint/Src/Pinpoint_monitor.cpp:75:6:void update_pinpoint_pose()	1

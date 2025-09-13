@@ -1,2 +1,5 @@
-../Core/Src/main_program/trace.cpp:8:6:void trace_init()	1
-../Core/Src/main_program/trace.cpp:12:8:double trace_straight_line()	1
+../Core/Src/main_program/trace.cpp:14:6:void trace_init()	1
+../Core/Src/main_program/trace.cpp:18:7:float trace_transfer()	1
+../Core/Src/main_program/trace.cpp:27:6:void trace_line(float)	1
+../Core/Src/main_program/trace.cpp:32:6:void trace_ckeck_point()	1
+../Core/Src/main_program/trace.cpp:36:6:bool intersection_check(int)	22
