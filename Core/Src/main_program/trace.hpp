@@ -32,11 +32,30 @@ extern ADC_HandleTypeDef hadc1;
 extern uint16_t adcRead[7];
 
 
-void   trace_init();            // Initialize infrared sensor
+void trace_init();            // Initialize infrared sensor
 float trace_transfer();   // Output: the rotation speed. Compute the offset from straight line
 void trace_line(float vy);
-void   trace_check_point();     // Check if the car reach the check point and refresh the current true location
-bool intersection_check(int type);
+void trace_check_point();     // Check if the car reach the check point and refresh the current true location
+bool type_check(int type);
+void loc_inter();
+void dir_check();
+void ten_inter(float inter_x, float inter_y, float rad_ori);
+void T_inter(float inter_x, float inter_y, float rad_ori);
+void trace();
+//mode:0 0
+//	   1 pi/2
+//	   2 pi
+//	   3 2pi/3
+//boundary:
+//    1  4
+//    2  3
+
+struct intersection{
+	float _x;
+	float _y;
+	float _b_xu;//x upper bound
+	float _b_xl;//x lower bound
+};
 
 #ifdef __cplusplus
 }

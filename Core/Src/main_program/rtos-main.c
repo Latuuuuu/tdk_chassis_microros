@@ -10,6 +10,7 @@
 #include "motor_config.h"
 #include "chassis_monitor.hpp"
 #include "Pinpoint_monitor.hpp"
+#include "chassis_config.h"
 
 extern TIM_HandleTypeDef htim1;
 extern TIM_HandleTypeDef htim2;
@@ -42,11 +43,11 @@ void StartDefaultTask(void *argument)
 	HAL_TIM_Base_Start_IT(&htim5);
 	uros_init();
     motor_init();
-    pinpoint_init();
+//    pinpoint_init();
 //    HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_1);
 //    HAL_TIM_Encoder_Start(&htim2, TIM_CHANNEL_ALL);
     trace_init();
-
+    relocateRobot(83.0, 546.0, PI/2);
     for(;;)
     {
         uros_agent_status_check();
@@ -62,12 +63,13 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		sec++;
 		tct++;
 		temp++;
-//		chassis_monitor();
-		chassis_set_speed(vx, vy, vz);
-		update_pinpoint_pose();
-		chassis_give_speed();
-		update_pose(pos_x, pos_y, pos_z, vel_x, vel_y, vel_z);
-		pinpoint_monitor();
+		chassis_monitor();
+//		chassis_set_speed(vx, vy, vz);
+//		update_chassis_pose();
+//		chassis_give_speed();
+//		update_pose(pos_x, pos_y, pos_z, vel_x, vel_y, vel_z);
+//		trace();
+//		pinpoint_monitor();
 	}
   /* USER CODE END Callback 0 */
 	if (htim->Instance == TIM6)

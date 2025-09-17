@@ -10,6 +10,8 @@ extern "C" {
 void chassis_monitor(void);
 void chassis_set_speed(float vx,float vy,float vz);
 void chassis_give_speed();
+void update_chassis_pose();
+void relocateRobot(float x, float y, float angle);
 extern float vel_x, vel_y, vel_z;
 
 #ifdef __cplusplus

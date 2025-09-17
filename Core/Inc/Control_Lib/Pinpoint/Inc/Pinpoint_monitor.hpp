@@ -16,6 +16,7 @@ void pinpoint_init(void);
 void pinpoint_monitor(void);
 void update_pinpoint_pose(void);
 void relocateRobot(float x, float y, float angle);
+float normalizeAngle(float radian);
 
 #ifdef __cplusplus
 }

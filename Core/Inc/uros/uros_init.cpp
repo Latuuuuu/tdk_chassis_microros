@@ -12,6 +12,7 @@
 #include <rmw_microros/time_sync.h>
 
 float vx = 0.0 ,vy = 0.0 ,vz = 0.0;
+bool trace_mode = 0.0;
 
 rcl_publisher_t           pose_pub;
 nav_msgs__msg__Odometry   pose_msg;
@@ -189,7 +190,7 @@ void uros_create_entities(void) {
   cmd_arm_msg.data = -1;
 
 
-  rclc_timer_init_default(&pose_pub_timer, &support, RCL_MS_TO_NS(50), pose_pub_timer_cb);
+  rclc_timer_init_default(&pose_pub_timer, &support, RCL_MS_TO_NS(10), pose_pub_timer_cb);
 
   
   rclc_executor_init(&executor, &support.context, 3, &allocator); // Create executor (1 timer + 2 subscriptions)
@@ -233,6 +234,15 @@ void cmd_vel_sub_cb(const void* msgin) {
   vx = cmd_vel_msg.linear.x;
   vy = cmd_vel_msg.linear.y;
   vz = cmd_vel_msg.angular.z;
+  if(cmd_vel_msg.linear.z > 0.0){
+	  trace_mode = true;
+  }
+  else{
+	  trace_mode = false;
+  }
+
+
+
 
 //  // 获取当前时间 (毫秒)
 //  uint32_t current_time = HAL_GetTick();

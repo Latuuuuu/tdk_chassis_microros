@@ -15,11 +15,11 @@ float w_goal,x_goal,y_goal;
 extern PinpointI2C::BulkData bd;
 float x_error,y_error;
 float vel_x, vel_y, vel_z;
-
+float pos_x, pos_y, pos_z;
 
 void chassis_monitor(void) {
 //	if(bd.pos_y_mm< y_goal){
-    chassis.setSpeed(Vx_goal,Vy_goal, W_goal);
+    chassis.setSpeed(Vx_goal,1.0, W_goal);
 //	}else{
 //		chassis.setSpeed(0,0,0);
 //	}
@@ -38,3 +38,14 @@ void chassis_give_speed()
 	vel_y = chassis._Vy_now;
 	vel_z = chassis._W_now;
 }
+void update_chassis_pose(){
+	 pos_x = chassis.x;
+	 pos_y = chassis.y;
+	 pos_z = chassis.theta;
+ }
+
+ void relocateRobot(float x, float y, float angle){
+	 chassis.x = x;
+	 chassis.y = y;
+	 chassis.theta = angle;
+ }

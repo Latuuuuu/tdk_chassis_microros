@@ -90,7 +90,7 @@ float MotorController::updateSpeed() {
 //    _last_cnt = __HAL_TIM_GET_COUNTER(_enc);
 
 	cnt = __HAL_TIM_GetCounter(_enc);
-	_currentSpeed = (cnt/ENCODER_RESOLUTION / REDUCTION_RATIO / 4) / (DT / 1000.0);
+	_currentSpeed = (cnt/ENCODER_RESOLUTION / REDUCTION_RATIO / 4) / (DT / 1000.0); //rps
     __HAL_TIM_SET_COUNTER(_enc, 0);
     _currentSpeed *= _en_ctrl;
     return _currentSpeed;

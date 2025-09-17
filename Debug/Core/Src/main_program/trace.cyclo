@@ -1,5 +1,11 @@
-../Core/Src/main_program/trace.cpp:14:6:void trace_init()	1
-../Core/Src/main_program/trace.cpp:18:7:float trace_transfer()	1
-../Core/Src/main_program/trace.cpp:27:6:void trace_line(float)	1
-../Core/Src/main_program/trace.cpp:32:6:void trace_ckeck_point()	1
-../Core/Src/main_program/trace.cpp:36:6:bool intersection_check(int)	22
+/opt/st/stm32cubeide_1.19.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.linux64_1.0.0.202410170706/tools/arm-none-eabi/include/c++/13.3.1/cmath:272:3:constexpr float std::fmod(float, float)	1
+../Core/Src/main_program/trace.cpp:35:6:void trace()	2
+../Core/Src/main_program/trace.cpp:44:6:void trace_init()	1
+../Core/Src/main_program/trace.cpp:48:7:float trace_transfer()	1
+../Core/Src/main_program/trace.cpp:57:6:void trace_line(float)	1
+../Core/Src/main_program/trace.cpp:64:6:void trace_check_point()	21
+../Core/Src/main_program/trace.cpp:109:6:void T_inter(float, float, float)	7
+../Core/Src/main_program/trace.cpp:136:6:void ten_inter(float, float, float)	7
+../Core/Src/main_program/trace.cpp:156:6:void loc_inter()	13
+../Core/Src/main_program/trace.cpp:178:6:void dir_check()	9
+../Core/Src/main_program/trace.cpp:190:6:bool type_check(int)	37
