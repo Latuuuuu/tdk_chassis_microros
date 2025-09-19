@@ -12,7 +12,7 @@
 #include <rmw_microros/time_sync.h>
 
 float vx = 0.0 ,vy = 0.0 ,vz = 0.0;
-bool trace_mode = 0.0;
+bool trace_mode = 0;
 
 rcl_publisher_t           pose_pub;
 nav_msgs__msg__Odometry   pose_msg;

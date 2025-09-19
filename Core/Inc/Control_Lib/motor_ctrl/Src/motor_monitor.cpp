@@ -35,9 +35,9 @@ float VgoalBL = 0.0;
 
 
 void motor_init(){
-	Motor_FR.init( 1, 1);
-	Motor_FL.init( 1,-1);
-	Motor_BR.init(-1, 1);
+	Motor_FR.init( 1,1);
+	Motor_FL.init(-1,-1);
+	Motor_BR.init( 1, 1);
 	Motor_BL.init( 1,-1);
 }
 

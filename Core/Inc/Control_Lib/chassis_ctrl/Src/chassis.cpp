@@ -14,9 +14,9 @@ void Chassis::setSpeed(float Vx_goal, float Vy_goal, float W_goal){
 void Chassis::getLocation(){
 	Mecan_ForwardKinematics();
 	dt = DT;
-    theta += _W_now * DT/1000;                                              // rad
-    Vy_global = _Vx_now * cos(theta) - _Vy_now * sin(theta);   // cm/s
-    Vx_global = _Vx_now * sin(theta) + _Vy_now * cos(theta);   // cm/s
+    theta -= _W_now * DT/1000;                                              // rad
+    Vy_global = _Vy_now * cos(theta) + _Vx_now * sin(theta);   // cm/s
+    Vx_global = - _Vy_now * sin(theta) + _Vx_now * cos(theta);   // cm/s
     x += (Vx_global * (dt/1000));                                        // cm
     y += (Vy_global * (dt/1000));										// cm
 }
@@ -29,7 +29,7 @@ void Chassis::Mecan_ForwardKinematics(){
 
     _Vx_now = (-_V_FR_now + _V_FL_now + _V_BR_now - _V_BL_now) / 4.0f;
     _Vy_now = (_V_FR_now + _V_FL_now + _V_BR_now + _V_BL_now) / 4.0f;
-    _W_now = -(-_V_FR_now +   _V_FL_now - _V_BR_now + _V_BL_now) / (CHASSIS_WIDTH + CHASSIS_LENGTH)/4;
+    _W_now = (-_V_FR_now +   _V_FL_now - _V_BR_now + _V_BL_now) / (CHASSIS_WIDTH + CHASSIS_LENGTH)/4;
 }
 
 void Chassis::Mecan_InverseKinematics(){
