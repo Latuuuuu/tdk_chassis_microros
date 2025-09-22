@@ -15,9 +15,16 @@ void Chassis::getLocation(){
 	Mecan_ForwardKinematics();
 	dt = DT;
     theta -= _W_now * DT/1000;                                              // rad
+    float slip_factor = 0.75;
+    float Vx_comp = _Vx_now, Vy_comp = _Vy_now;
+    if(_Vx_now > 0) 	Vx_comp = _Vx_now - slip_factor * fabs(_W_now) * _Vy_now;
+    else	Vx_comp = _Vx_now + slip_factor * fabs(_W_now) * _Vy_now;
+    if(_Vy_now > 0)		Vy_comp = _Vy_now + slip_factor * fabs(_W_now) * _Vx_now;
+    else	Vy_comp = _Vy_now - slip_factor * fabs(_W_now) * _Vx_now;
+
     theta = normalize_angle(theta);
-    Vy_global = _Vy_now * cos(theta) + _Vx_now * sin(theta);   // cm/s
-    Vx_global = - _Vy_now * sin(theta) + _Vx_now * cos(theta);   // cm/s
+    Vy_global = Vy_comp * cos(theta) + Vx_comp * sin(theta);   // cm/s
+    Vx_global = -Vy_comp * sin(theta) + Vx_comp * cos(theta);   // cm/s
     x += (Vx_global * (dt/1000));                                        // cm
     y += (Vy_global * (dt/1000));										// cm
 }
