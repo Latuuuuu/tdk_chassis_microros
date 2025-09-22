@@ -12,6 +12,7 @@ extern "C" {
 #include "stm32f446xx.h"
 #include <stdbool.h>
 
+
 /*-----------Front------------*/
 /*          0   Right         */
 /*          1     |           */
@@ -28,27 +29,20 @@ extern "C" {
 
 
 
-extern ADC_HandleTypeDef hadc1;
-extern uint16_t adcRead[7];
 
 
 void trace_init();            // Initialize infrared sensor
 float trace_transfer();   // Output: the rotation speed. Compute the offset from straight line
-void trace_line(float vy);
+void trace_line();
 void trace_check_point();     // Check if the car reach the check point and refresh the current true location
 bool type_check(int type);
 void loc_inter();
 void dir_check();
-void ten_inter(float inter_x, float inter_y, float rad_ori);
+//void ten_inter(float inter_x, float inter_y, float rad_ori);
 void T_inter(float inter_x, float inter_y, float rad_ori);
 void trace();
-//mode:0 0
-//	   1 pi/2
-//	   2 pi
-//	   3 2pi/3
-//boundary:
-//    1  4
-//    2  3
+bool turn_check(float x_now,float y_now,float w_now);
+void inter_goal_select();
 
 struct intersection{
 	float _x;

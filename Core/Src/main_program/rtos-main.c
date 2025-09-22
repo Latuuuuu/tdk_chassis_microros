@@ -28,9 +28,11 @@ int turn =0;
 double currentsp = 0;
 int sec = 0,tct = 0;
 float temp=0;
-
-
 int trace_mode1 = 0;
+int ach_state = 1;
+int a = 0;
+extern int trace_mode;
+
 //PinpointI2C pinpoint(&hi2c1);
 //PinpointI2C::BulkData bd;
 
@@ -50,7 +52,7 @@ void StartDefaultTask(void *argument)
 //    HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_1);
 //    HAL_TIM_Encoder_Start(&htim2, TIM_CHANNEL_ALL);
     trace_init();
-    relocateRobot(0.0, 580.0, 0.0);
+    relocateRobot(0.0, 0.0, 0.0);
     for(;;)
     {
         uros_agent_status_check();
@@ -66,13 +68,16 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		sec++;
 		tct++;
 
-		chassis_set_speed(vx, vy, vz);
+		if(trace_mode == 1){chassis_set_speed(0.0, vy, vz);}
+		else {chassis_set_speed(vx, vy, vz);}
 		update_chassis_pose();
 		chassis_give_speed();
-		update_pose(pos_x, pos_y, pos_z, vel_x, vel_y, vel_z);
-//		trace();
-//		chassis_monitor();
-
+		trace();
+		update_pose(pos_x, pos_y, pos_z, vel_x, vel_y, vel_z,(float)ach_state);
+//		if (trace_mode){
+//		}else{
+//			chassis_monitor();
+//		}
 
 //		pinpoint_monitor();
 //		if (sec == 1000){

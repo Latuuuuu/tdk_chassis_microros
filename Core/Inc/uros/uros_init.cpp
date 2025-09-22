@@ -12,16 +12,12 @@
 #include <rmw_microros/time_sync.h>
 
 float vx = 0.0 ,vy = 0.0 ,vz = 0.0;
-bool trace_mode = 0;
+int trace_mode = 0, inter_goal =0;
 
 rcl_publisher_t           pose_pub;
 nav_msgs__msg__Odometry   pose_msg;
 rcl_subscription_t        cmd_vel_sub;
 geometry_msgs__msg__Twist cmd_vel_msg;
-rcl_publisher_t           arm_pub;
-std_msgs__msg__Int32      arm_msg;
-rcl_subscription_t        cmd_arm_sub;
-std_msgs__msg__Int32      cmd_arm_msg;
 rcl_timer_t pose_pub_timer;
 
 // 用于计算积分的变量
@@ -155,19 +151,8 @@ void uros_create_entities(void) {
   pose_msg.pose.pose.orientation.z = 0.0;
   pose_msg.pose.pose.orientation.w = 0.0;
 
-  rclc_publisher_init_default(                                                  // Initialize publisher for pose
-    &arm_pub,
-    &node,
-    ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Int32),
-    "robot/arm_status");
-  arm_msg.data = -1;
-
   rmw_uros_set_publisher_session_timeout(                                       // Set session timeout for publisher
     rcl_publisher_get_rmw_handle(&pose_pub),
-    10);
-
-  rmw_uros_set_publisher_session_timeout(                                       // Set session timeout for publisher
-    rcl_publisher_get_rmw_handle(&arm_pub),
     10);
 
   rclc_subscription_init_default(                                               // Initialize subscriber for command velocity
@@ -182,21 +167,13 @@ void uros_create_entities(void) {
   cmd_vel_msg.angular.y = 0.0;
   cmd_vel_msg.angular.z = 0.0;
 
-  rclc_subscription_init_default(                                               // Initialize subscriber for arm command
-    &cmd_arm_sub,
-    &node,
-    ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Int32),
-    "robot/cmd_arm");
-  cmd_arm_msg.data = -1;
-
 
   rclc_timer_init_default(&pose_pub_timer, &support, RCL_MS_TO_NS(10), pose_pub_timer_cb);
 
   
-  rclc_executor_init(&executor, &support.context, 3, &allocator); // Create executor (1 timer + 2 subscriptions)
+  rclc_executor_init(&executor, &support.context, 2, &allocator); // Create executor (1 timer + 2 subscriptions)
 
   rclc_executor_add_subscription(&executor, &cmd_vel_sub, &cmd_vel_msg, &cmd_vel_sub_cb, ON_NEW_DATA); // Add subscriber to executor
-  rclc_executor_add_subscription(&executor, &cmd_arm_sub, &cmd_arm_msg, &cmd_arm_sub_cb, ON_NEW_DATA); // Add arm subscriber to executor
   rclc_executor_add_timer(&executor, &pose_pub_timer); // Add timer to executor
 }
 void uros_destroy_entities(void) {
@@ -205,12 +182,7 @@ void uros_destroy_entities(void) {
 
   // Destroy publisher
   rcl_publisher_fini(&pose_pub, &node);
-  rcl_publisher_fini(&arm_pub, &node);
-
   // Destroy subscriber
-  rcl_subscription_fini(&cmd_vel_sub, &node);
-  rcl_subscription_fini(&cmd_arm_sub, &node);
-
   rcl_timer_fini(&pose_pub_timer);
 
   // Destroy executor
@@ -234,12 +206,17 @@ void cmd_vel_sub_cb(const void* msgin) {
   vx = cmd_vel_msg.linear.x;
   vy = cmd_vel_msg.linear.y;
   vz = cmd_vel_msg.angular.z;
-  if(cmd_vel_msg.linear.z > 0.0){
-	  trace_mode = true;
+  if(cmd_vel_msg.linear.z <=0.0){
+	  trace_mode = 0.0;
   }
-  else{
-	  trace_mode = false;
+  else if(cmd_vel_msg.linear.z >=0.9 || cmd_vel_msg.linear.z <=1.1){
+	  trace_mode = 1;
   }
+  else if(cmd_vel_msg.linear.z >=1.9 || cmd_vel_msg.linear.z <=2.1){
+  	  trace_mode = 2;
+  }
+  inter_goal = (int)cmd_vel_msg.angular.y;
+
 
 
 
@@ -285,13 +262,14 @@ void cmd_vel_sub_cb(const void* msgin) {
 //  last_cmd_vel_time = current_time;
 }
 
-void update_pose(float pos_x, float pos_y, float pos_z, float vel_x, float vel_y, float vel_z){
+void update_pose(float pos_x, float pos_y, float pos_z, float vel_x, float vel_y, float vel_z,float ach_state){
   pose_msg.pose.pose.position.x = pos_x;
   pose_msg.pose.pose.position.y = pos_y;
   pose_msg.pose.pose.orientation.z = pos_z;
   pose_msg.twist.twist.linear.x = vel_x;
   pose_msg.twist.twist.linear.y = vel_y;
   pose_msg.twist.twist.angular.z = vel_z;
+  pose_msg.twist.twist.angular.x = ach_state;
 }
 
 
@@ -314,18 +292,18 @@ void pose_pub_timer_cb(rcl_timer_t * timer, int64_t last_call_time) {
   //        current_yaw, ret);
 }
 
-void cmd_arm_sub_cb(const void* msgin) {
-  const std_msgs__msg__Int32 * msg = (const std_msgs__msg__Int32 *)msgin;
-  cmd_arm_msg = *msg;
-  uint32_t current_time = HAL_GetTick();
-
-  if(arm_msg.data != cmd_arm_msg.data) {
-    if(current_time - last_cmd_arm_time > 2000) {
-      arm_msg = cmd_arm_msg;
-      rcl_publish(&arm_pub, &arm_msg, NULL);
-    }
-  }
-  else{
-    last_cmd_arm_time = current_time;
-  }
-}
+//void cmd_arm_sub_cb(const void* msgin) {
+//  const std_msgs__msg__Int32 * msg = (const std_msgs__msg__Int32 *)msgin;
+//  cmd_arm_msg = *msg;
+//  uint32_t current_time = HAL_GetTick();
+//
+//  if(arm_msg.data != cmd_arm_msg.data) {
+//    if(current_time - last_cmd_arm_time > 2000) {
+//      arm_msg = cmd_arm_msg;
+//      rcl_publish(&arm_pub, &arm_msg, NULL);
+//    }
+//  }
+//  else{
+//    last_cmd_arm_time = current_time;
+//  }
+//}

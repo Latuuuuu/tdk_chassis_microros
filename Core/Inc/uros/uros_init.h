@@ -35,14 +35,12 @@ extern rcl_publisher_t           pose_pub;
 extern nav_msgs__msg__Odometry   pose_msg;
 extern rcl_subscription_t        cmd_vel_sub;
 extern geometry_msgs__msg__Twist cmd_vel_msg;
-extern rcl_publisher_t           arm_pub;
-extern std_msgs__msg__Int32      arm_msg;
-extern rcl_subscription_t        cmd_arm_sub;
-extern std_msgs__msg__Int32      cmd_arm_msg;
 extern rcl_timer_t pose_pub_timer;
 
-extern float vx ,vy,vz;
+extern float vx ,vy, vz;
 extern int code;
+extern int trace_mode, ach_state, inter_goal;
+
 
 
 bool cubemx_transport_open(struct uxrCustomTransport * transport);
@@ -77,11 +75,9 @@ void uros_create_entities(void);
 void uros_destroy_entities(void);
 
 void cmd_vel_sub_cb(const void* msgin);
-void cmd_arm_sub_cb(const void* msgin);
 void pose_pub_timer_cb(rcl_timer_t * timer, int64_t last_call_time);
-void arm_pub_cb();
 
-void update_pose(float pos_x, float pos_y, float pos_z, float vel_x, float vel_y, float vel_z);
+void update_pose(float pos_x, float pos_y, float pos_z, float vel_x, float vel_y, float vel_z,float ach_state);
 
 #ifdef __cplusplus
 }

@@ -2,6 +2,7 @@
 #include "chassis_monitor.hpp"
 #include "motor_monitor.hpp"
 #include "Pinpoint.hpp"
+#include <cmath>
 
 extern MotorController Motor_FR;
 extern MotorController Motor_FL;
@@ -19,7 +20,7 @@ float pos_x, pos_y, pos_z;
 
 void chassis_monitor(void) {
 //	if(bd.pos_y_mm< y_goal){
-    chassis.setSpeed(Vx_goal,Vy_goal, W_goal);
+    chassis.setSpeed(Vx_goal,25.0, W_goal);
 //	}else{
 //		chassis.setSpeed(0,0,0);
 //	}
@@ -45,8 +46,10 @@ void update_chassis_pose(){
  }
 
  void relocateRobot(float x, float y, float angle){
-	 angle = fmod(angle, (float) (2 * PI));
+//	 angle = normalize_angle(angle);
 	 chassis.x = x;
 	 chassis.y = y;
 	 chassis.theta = angle;
  }
+
+

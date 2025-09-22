@@ -15,6 +15,7 @@ void Chassis::getLocation(){
 	Mecan_ForwardKinematics();
 	dt = DT;
     theta -= _W_now * DT/1000;                                              // rad
+    theta = normalize_angle(theta);
     Vy_global = _Vy_now * cos(theta) + _Vx_now * sin(theta);   // cm/s
     Vx_global = - _Vy_now * sin(theta) + _Vx_now * cos(theta);   // cm/s
     x += (Vx_global * (dt/1000));                                        // cm
@@ -41,4 +42,12 @@ void Chassis::Mecan_InverseKinematics(){
     _V_FL_goal = (_Vx_goal + _Vy_goal - _W_goal * (CHASSIS_LENGTH + CHASSIS_WIDTH));
     _V_BR_goal = (_Vx_goal + _Vy_goal + _W_goal *(CHASSIS_LENGTH + CHASSIS_WIDTH));
     _V_BL_goal = (-_Vx_goal + _Vy_goal - _W_goal * (CHASSIS_LENGTH + CHASSIS_WIDTH));
+}
+
+float normalize_angle(float angle) {
+    float result = std::fmod(angle, (float)2*PI); // 先做餘數
+    if (result < 0) {
+        result += (float)(2 * PI); // 如果結果是負的，補一圈變成正
+    }
+    return result; // 現在一定在 [0, 2π)
 }

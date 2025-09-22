@@ -39,6 +39,7 @@ class Chassis {
         float _V_FR_now = 0, _V_FL_now = 0, _V_BR_now = 0, _V_BL_now = 0;
 };
 
+float normalize_angle(float angle);
 
 #ifdef __cplusplus
 }
