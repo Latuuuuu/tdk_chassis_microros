@@ -8855,7 +8855,7 @@ void StartDefaultTask(void *argument)
 //    HAL_TIM_Encoder_Start(&htim2, TIM_CHANNEL_ALL);
     trace_init();
  8004176:	f000 f915 	bl	80043a4 <trace_init>
-    relocateRobot(0.0, 580.0, 0.0);
+    relocateRobot(0.0, 546.0, 0.0);
  800417a:	ed9f 1a08 	vldr	s2, [pc, #32]	@ 800419c <StartDefaultTask+0x3c>
  800417e:	eddf 0a08 	vldr	s1, [pc, #32]	@ 80041a0 <StartDefaultTask+0x40>
  8004182:	ed9f 0a06 	vldr	s0, [pc, #24]	@ 800419c <StartDefaultTask+0x3c>
@@ -8872,7 +8872,7 @@ void StartDefaultTask(void *argument)
  8004196:	e7f8      	b.n	800418a <StartDefaultTask+0x2a>
  8004198:	20005574 	.word	0x20005574
  800419c:	00000000 	.word	0x00000000
- 80041a0:	44110000 	.word	0x44110000
+ 80041a0:	44088000 	.word	0x44088000
 
 080041a4 <HAL_TIM_PeriodElapsedCallback>:
     }
