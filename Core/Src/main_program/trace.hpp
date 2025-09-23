@@ -38,7 +38,6 @@ void trace_check_point();     // Check if the car reach the check point and refr
 bool type_check(int type);
 void loc_inter();
 void dir_check();
-//void ten_inter(float inter_x, float inter_y, float rad_ori);
 void T_inter(float inter_x, float inter_y, float rad_ori);
 void trace();
 bool turn_check(float x_now,float y_now,float w_now);
