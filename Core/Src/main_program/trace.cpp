@@ -37,35 +37,45 @@ intersection inter_set[6] = { inter_1, inter_2, inter_3, inter_4, inter_5,inter_
 
 int inter_now = 0; //表無路口
 int dir_now = 0;
-int T_R[3];
-float v__y = 0;
 float w_trace = 0;
 int done = 0;
 float inter_goal_x = 0.0, inter_goal_y = 0.0, inter_goal_w = 0.0;
+int last_trace_mode = 0; // for set original limit val
+float limit_val = 0.0; //original val for limit before trace
+int limit_dir = 0; //1:x 2:y select limit which dir
 
 void trace() {
 	if (trace_mode == 1) {
+		if (last_trace_mode == 0) {
+			set_limit_dir_val();
+			done = 0;
+		}
 		if (done == 2) {
 			ach_state = 2;
-			chassis.setSpeed(0.0, 0.0, 0.0);
-			done = 0;
-		} else {
+			vx = 0.0;
+			vy = 0.0;
+			vz = 0.0;
+		} else if (done == 0) {
 			ach_state = 0;
 			trace_line();
+			trace_limit_val();
 		}
 	} else if (trace_mode == 2) {
 		inter_goal_select();
-		if (turn_check(inter_goal_x,inter_goal_y,inter_goal_w)) {
+		if (turn_check(inter_goal_x, inter_goal_y, inter_goal_w)) {
 			ach_state = 3;
-			chassis.setSpeed(0.0, 0.0, 0.0);
+			vx = 0.0;
+			vy = 0.0;
+			vz = 0.0;
 		} else {
 			ach_state = 0;
-			chassis.setSpeed(0.0, 0.0, vz);
+//			chassis.setSpeed(0.0, 0.0, vz);
 		}
 	} else {
 		ach_state = 1;
 	}
 	trace_check_point();
+	last_trace_mode = trace_mode;
 }
 
 void trace_init() {
@@ -85,6 +95,7 @@ float trace_transfer() { //vz>0 ：逆時針
 
 void trace_line() {
 	vz = trace_transfer();
+	vx = 0.0;
 //	chassis.setSpeed(vx, vy, w_trace);
 }
 
@@ -285,6 +296,33 @@ void dir_check() { //0:know 1:up 2:left 3:down 4:right
 		dir_now = 4;
 	}
 }
+
+
+void set_limit_dir_val(){
+	if (dir_now == 1 || dir_now == 3){
+		limit_dir = 1;
+		limit_val = chassis.x;
+	}else if (dir_now == 2 || dir_now == 4){
+		limit_dir = 2;
+		limit_val = chassis.y;
+	}
+}
+void trace_limit_val() {
+	if (limit_dir == 1) {
+		if (chassis.x > limit_val + 2.0) {
+			chassis.x = limit_val + 2.0;
+		} else if (chassis.x < limit_val - 2.0) {
+			chassis.x = limit_val - 2.0;
+		}
+	} else if (limit_dir == 2) {
+		if (chassis.y > limit_val + 2.0) {
+			chassis.y = limit_val + 2.0;
+		} else if (chassis.y < limit_val - 2.0) {
+			chassis.y = limit_val - 2.0;
+		}
+	}
+}
+
 bool type_check(int type) { //確認特徵點，更新座標
 	int black_line_val = 3000; //大於是黑
 	int black_center_val = 4000;

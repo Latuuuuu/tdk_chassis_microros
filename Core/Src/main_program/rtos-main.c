@@ -68,8 +68,10 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		sec++;
 		tct++;
 
-		if(trace_mode == 1){chassis_set_speed(0.0, vy, vz);}
-		else {chassis_set_speed(vx, vy, vz);}
+//		if(trace_mode == 1){chassis_set_speed(0.0, vy, vz);}
+//		else {
+			chassis_set_speed(vx, vy, vz);
+//		}
 		update_chassis_pose();
 		chassis_give_speed();
 		trace();
