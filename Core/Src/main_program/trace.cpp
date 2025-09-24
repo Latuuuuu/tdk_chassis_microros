@@ -33,7 +33,7 @@ struct intersection inter_4 = { -151.0, 616.0, -116.0, -191.0 }; //cm
 struct intersection inter_5 = { -267.0, 616.0, -307.0, -227.0 }; //cm
 struct intersection inter_6 = { -487.0, 335.0, -447.0, -527.0 }; //cm
 
-intersection inter_set[6] = { inter_1, inter_2, inter_3, inter_4, inter_5,inter_6 };
+intersection* inter_set[6] = { &inter_1, &inter_2, &inter_3, &inter_4, &inter_5,&inter_6 };
 
 int inter_now = 0; //表無路口
 int dir_now = 0;
@@ -43,6 +43,10 @@ float inter_goal_x = 0.0, inter_goal_y = 0.0, inter_goal_w = 0.0;
 int last_trace_mode = 0; // for set original limit val
 float limit_val = 0.0; //original val for limit before trace
 int limit_dir = 0; //1:x 2:y select limit which dir
+extern int inter_goal;
+bool turn_finish = 0;
+int last_dir = 0;
+bool allow_turn = 1;
 
 void trace() {
 	if (trace_mode == 1) {
@@ -59,20 +63,28 @@ void trace() {
 			ach_state = 0;
 			trace_line();
 			trace_limit_val();
+		}else if (done ==  1){
+			vz = 0.0;
 		}
 	} else if (trace_mode == 2) {
 		inter_goal_select();
-		if (turn_check(inter_goal_x, inter_goal_y, inter_goal_w)) {
+		if ((ach_state == 3 || (dir_now != last_dir)) && turn_check(inter_goal_x, inter_goal_y, inter_goal_w)) {
 			ach_state = 3;
 			vx = 0.0;
 			vy = 0.0;
 			vz = 0.0;
+			turn_finish = 1;
 		} else {
 			ach_state = 0;
 //			chassis.setSpeed(0.0, 0.0, vz);
 		}
 	} else {
+		if (last_trace_mode == 1){
+			vz = 0;
+		}
+		turn_finish = 0;
 		ach_state = 1;
+		last_dir = dir_now;
 	}
 	trace_check_point();
 	last_trace_mode = trace_mode;
@@ -100,8 +112,8 @@ void trace_line() {
 }
 
 void inter_goal_select(){
-	inter_goal_x = inter_set[inter_now]._x;
-	inter_goal_y = inter_set[inter_now]._y;
+	inter_goal_x = inter_set[inter_now]->_x;
+	inter_goal_y = inter_set[inter_now]->_y;
 	if (dir_now == 1){
 		inter_goal_w = 0;
 	}else if (dir_now == 2){
@@ -180,58 +192,61 @@ void trace_check_point() {
 }
 
 bool turn_check(float x_now, float y_now, float w_now) {
-	if (vz > 0) { //右轉
-		if (type_check(6)) {
+	if (vz < 0) { //右轉
+		if (type_check(5)) {
 			relocateRobot(x_now, y_now, w_now - (float) Pi / 2);
 			done = 0;
 			return true;
 		}
 		return 0;
-	} else if (vz < 0) { //左轉
-		if (type_check(7)) {
+	} else if (vz > 0) { //左轉
+		if (type_check(5)) {
 			relocateRobot(x_now, y_now, w_now + (float) Pi / 2);
 			done = 0;
 			return true;
 		}
 		return 0;
 	}
+	return false;
 }
 void T_inter(float inter_x, float inter_y, float rad_ori) {
-	if (dir_now == 1) {
-		if (done == 0 && type_check(1)) {
-			relocateRobot(inter_x - trace_dis, inter_y, rad_ori);
-			done = 1;
-		}
-		if (done == 1 && type_check(2)) {
-			relocateRobot(inter_x, inter_y, rad_ori);
-			done = 2;
-		}
-	} else if (dir_now == 2) {
-		if (done == 0 && type_check(1)) {
-			relocateRobot(inter_x, inter_y - trace_dis, rad_ori);
-			done = 1;
-		}
-		if (done == 1 && type_check(2)) {
-			relocateRobot(inter_x, inter_y, rad_ori);
-			done = 2;
-		}
-	} else if (dir_now == 3) {
-		if (done == 0 && type_check(1)) {
-			relocateRobot(inter_x + trace_dis, inter_y, rad_ori);
-			done = 1;
-		}
-		if (done == 1 && type_check(2)) {
-			relocateRobot(inter_x, inter_y, rad_ori);
-			done = 2;
-		}
-	} else if (dir_now == 4) {
-		if (done == 0 && type_check(1)) {
-			relocateRobot(inter_x, inter_y + trace_dis, rad_ori);
-			done = 1;
-		}
-		if (done == 1 && type_check(2)) {
-			relocateRobot(inter_x, inter_y, rad_ori);
-			done = 2;
+	if (inter_now == inter_goal) {
+		if (dir_now == 1) {
+			if (done == 0 && type_check(1)) {
+				relocateRobot(inter_x - trace_dis, inter_y, rad_ori);
+				done = 1;
+			}
+			if (done == 1 && type_check(2)) {
+				relocateRobot(inter_x, inter_y, rad_ori);
+				done = 2;
+			}
+		} else if (dir_now == 2) {
+			if (done == 0 && type_check(1)) {
+				relocateRobot(inter_x, inter_y - trace_dis, rad_ori);
+				done = 1;
+			}
+			if (done == 1 && type_check(2)) {
+				relocateRobot(inter_x, inter_y, rad_ori);
+				done = 2;
+			}
+		} else if (dir_now == 3) {
+			if (done == 0 && type_check(1)) {
+				relocateRobot(inter_x + trace_dis, inter_y, rad_ori);
+				done = 1;
+			}
+			if (done == 1 && type_check(2)) {
+				relocateRobot(inter_x, inter_y, rad_ori);
+				done = 2;
+			}
+		} else if (dir_now == 4) {
+			if (done == 0 && type_check(1)) {
+				relocateRobot(inter_x, inter_y + trace_dis, rad_ori);
+				done = 1;
+			}
+			if (done == 1 && type_check(2)) {
+				relocateRobot(inter_x, inter_y, rad_ori);
+				done = 2;
+			}
 		}
 	}
 }
@@ -324,7 +339,7 @@ void trace_limit_val() {
 }
 
 bool type_check(int type) { //確認特徵點，更新座標
-	int black_line_val = 3000; //大於是黑
+	int black_line_val = 2900; //大於是黑
 	int black_center_val = 4000;
 
 	switch (type) {
@@ -365,23 +380,22 @@ bool type_check(int type) { //確認特徵點，更新座標
 		//轉彎確認—雙邊
 	case 5:
 
-		if (adcRead[5] >= black_line_val && adcRead[6] >= black_line_val
-				&& adcRead[0] >= black_line_val && adcRead[2] >= black_line_val
-				&& adcRead[4] >= black_line_val)
+		if ((adcRead[5] >= black_line_val || adcRead[6] >= black_line_val)
+				&& adcRead[2] >= black_line_val)
 			return 1;
 		else
 			return 0;
 		break;
 	case 6: //右轉確認—單邊
 
-		if (adcRead[5] >= black_center_val && adcRead[2] >= black_line_val)
+		if (adcRead[5] >= black_center_val && (adcRead[2] >= black_line_val))
 			return 1;
 		else
 			return 0;
 		break;
 	case 7: //左轉確認-單邊
 
-		if (adcRead[6] >= black_center_val && adcRead[2] >= black_line_val)
+		if (adcRead[6] >= black_center_val && adcRead[1] >= black_line_val)
 			return 1;
 		else
 			return 0;

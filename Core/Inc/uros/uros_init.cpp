@@ -269,7 +269,7 @@ void update_pose(float pos_x, float pos_y, float pos_z, float vel_x, float vel_y
   pose_msg.twist.twist.linear.x = vel_x;
   pose_msg.twist.twist.linear.y = vel_y;
   pose_msg.twist.twist.angular.z = vel_z;
-  pose_msg.twist.twist.angular.x = ach_state;
+  pose_msg.pose.pose.orientation.x = ach_state;
 }
 
 

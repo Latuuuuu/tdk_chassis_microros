@@ -52,7 +52,7 @@ void StartDefaultTask(void *argument)
 //    HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_1);
 //    HAL_TIM_Encoder_Start(&htim2, TIM_CHANNEL_ALL);
     trace_init();
-    relocateRobot(0.0, 546.0, 0.0);
+    relocateRobot(0.0, 600.0, 0.0);
     for(;;)
     {
         uros_agent_status_check();
@@ -70,7 +70,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
 //		if(trace_mode == 1){chassis_set_speed(0.0, vy, vz);}
 //		else {
-			chassis_set_speed(vx, vy, vz);
+		chassis_set_speed(vx, vy, vz);
 //		}
 		update_chassis_pose();
 		chassis_give_speed();
