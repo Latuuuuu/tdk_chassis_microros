@@ -47,6 +47,7 @@ extern int inter_goal;
 bool turn_finish = 0;
 int last_dir = 0;
 bool allow_turn = 1;
+int test;
 
 void trace() {
 	if (trace_mode == 1) {
@@ -68,13 +69,14 @@ void trace() {
 		}
 	} else if (trace_mode == 2) {
 		inter_goal_select();
-		if ((ach_state == 3 || (dir_now != last_dir)) && turn_check(inter_goal_x, inter_goal_y, inter_goal_w)) {
+		test = turn_check(inter_goal_x, inter_goal_y, inter_goal_w);
+		if ((ach_state == 3 || dir_now != last_dir) && test == 1) {
 			ach_state = 3;
 			vx = 0.0;
 			vy = 0.0;
 			vz = 0.0;
 			turn_finish = 1;
-		} else {
+		} else if (test == 2) {
 			ach_state = 0;
 //			chassis.setSpeed(0.0, 0.0, vz);
 		}
@@ -106,14 +108,34 @@ float trace_transfer() { //vz>0 ：逆時針
 }
 
 void trace_line() {
-	vz = trace_transfer();
-	vx = 0.0;
+	int temp;
+		if ((inter_now - 1) < 0){
+			temp = 0;
+		}else{
+			temp = inter_now - 1;
+		}
+	if (chassis.x < (inter_set[temp]->_x - 5) || chassis.x > (inter_set[temp]->_x +5))
+	{
+		if (chassis.y < (inter_set[temp]->_y - 5) || chassis.y > (inter_set[temp]->_y +5))
+		{
+			vz = trace_transfer();
+			vx = 0.0;
+		}
+
+	}
+
 //	chassis.setSpeed(vx, vy, w_trace);
 }
 
 void inter_goal_select(){
-	inter_goal_x = inter_set[inter_now]->_x;
-	inter_goal_y = inter_set[inter_now]->_y;
+	int temp;
+	if ((inter_now - 1) < 0){
+		temp = 0;
+	}else{
+		temp = inter_now - 1;
+	}
+	inter_goal_x = inter_set[temp]->_x;
+	inter_goal_y = inter_set[temp]->_y;
 	if (dir_now == 1){
 		inter_goal_w = 0;
 	}else if (dir_now == 2){
@@ -191,29 +213,27 @@ void trace_check_point() {
 	}
 }
 
-bool turn_check(float x_now, float y_now, float w_now) {
+int turn_check(float x_now, float y_now, float w_now) {
 	if (vz < 0) { //右轉
-		if (type_check(5)) {
-			relocateRobot(x_now, y_now, w_now - (float) Pi / 2);
-			done = 0;
-			return true;
+		if (type_check(6)) {
+			relocateRobot(x_now, y_now, w_now );
+			return 1;
 		}
-		return 0;
+		return 2;
 	} else if (vz > 0) { //左轉
-		if (type_check(5)) {
-			relocateRobot(x_now, y_now, w_now + (float) Pi / 2);
-			done = 0;
-			return true;
+		if (type_check(7)) {
+			relocateRobot(x_now, y_now, w_now );
+			return 1;
 		}
-		return 0;
+		return 2;
 	}
-	return false;
+	return 0;
 }
 void T_inter(float inter_x, float inter_y, float rad_ori) {
 	if (inter_now == inter_goal) {
 		if (dir_now == 1) {
 			if (done == 0 && type_check(1)) {
-				relocateRobot(inter_x - trace_dis, inter_y, rad_ori);
+				relocateRobot(inter_x , inter_y - trace_dis, rad_ori);
 				done = 1;
 			}
 			if (done == 1 && type_check(2)) {
@@ -222,7 +242,7 @@ void T_inter(float inter_x, float inter_y, float rad_ori) {
 			}
 		} else if (dir_now == 2) {
 			if (done == 0 && type_check(1)) {
-				relocateRobot(inter_x, inter_y - trace_dis, rad_ori);
+				relocateRobot(inter_x + trace_dis, inter_y, rad_ori);
 				done = 1;
 			}
 			if (done == 1 && type_check(2)) {
@@ -231,7 +251,7 @@ void T_inter(float inter_x, float inter_y, float rad_ori) {
 			}
 		} else if (dir_now == 3) {
 			if (done == 0 && type_check(1)) {
-				relocateRobot(inter_x + trace_dis, inter_y, rad_ori);
+				relocateRobot(inter_x , inter_y - trace_dis, rad_ori);
 				done = 1;
 			}
 			if (done == 1 && type_check(2)) {
@@ -240,7 +260,7 @@ void T_inter(float inter_x, float inter_y, float rad_ori) {
 			}
 		} else if (dir_now == 4) {
 			if (done == 0 && type_check(1)) {
-				relocateRobot(inter_x, inter_y + trace_dis, rad_ori);
+				relocateRobot(inter_x - trace_dis, inter_y , rad_ori);
 				done = 1;
 			}
 			if (done == 1 && type_check(2)) {
@@ -388,14 +408,14 @@ bool type_check(int type) { //確認特徵點，更新座標
 		break;
 	case 6: //右轉確認—單邊
 
-		if (adcRead[5] >= black_center_val && (adcRead[2] >= black_line_val))
+		if ((adcRead[5] >= black_line_val || adcRead[6] >= black_line_val) && (adcRead[4] >= black_line_val))
 			return 1;
 		else
 			return 0;
 		break;
 	case 7: //左轉確認-單邊
 
-		if (adcRead[6] >= black_center_val && adcRead[1] >= black_line_val)
+		if ((adcRead[5] >= black_line_val || adcRead[6] >= black_line_val) && adcRead[1] >= black_line_val)
 			return 1;
 		else
 			return 0;

@@ -40,7 +40,7 @@ void loc_inter();
 void dir_check();
 void T_inter(float inter_x, float inter_y, float rad_ori);
 void trace();
-bool turn_check(float x_now,float y_now,float w_now);
+int turn_check(float x_now,float y_now,float w_now);
 void inter_goal_select();
 void set_limit_dir_val();
 void trace_limit_val();
