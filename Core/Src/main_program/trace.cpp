@@ -50,9 +50,11 @@ bool allow_turn = 1;
 int test;
 
 void trace() {
-	if (trace_mode == 1) {
-		if (last_trace_mode == 0) {
+ 	if (trace_mode == 1) {
+		if (last_trace_mode == 2 || last_trace_mode == 0) {
 			set_limit_dir_val();
+			last_dir = dir_now;
+			ach_state = 0;
 			done = 0;
 		}
 		if (done == 2) {
@@ -68,9 +70,12 @@ void trace() {
 			vz = 0.0;
 		}
 	} else if (trace_mode == 2) {
+		if (last_trace_mode == 1) {
+			ach_state = 0;
+		}
 		inter_goal_select();
 		test = turn_check(inter_goal_x, inter_goal_y, inter_goal_w);
-		if ((ach_state == 3 || dir_now != last_dir) && test == 1) {
+		if ((ach_state == 3|| dir_now != last_dir) && test == 1) {
 			ach_state = 3;
 			vx = 0.0;
 			vy = 0.0;
@@ -84,7 +89,6 @@ void trace() {
 		if (last_trace_mode == 1){
 			vz = 0;
 		}
-		turn_finish = 0;
 		ach_state = 1;
 		last_dir = dir_now;
 	}
@@ -114,13 +118,11 @@ void trace_line() {
 		}else{
 			temp = inter_now - 1;
 		}
-	if (chassis.x < (inter_set[temp]->_x - 5) || chassis.x > (inter_set[temp]->_x +5))
+	if (chassis.x < (inter_set[temp]->_x - 4) || chassis.x > (inter_set[temp]->_x + 4) ||
+			chassis.y < (inter_set[temp]->_y - 4) || chassis.y > (inter_set[temp]->_y + 4))
 	{
-		if (chassis.y < (inter_set[temp]->_y - 5) || chassis.y > (inter_set[temp]->_y +5))
-		{
-			vz = trace_transfer();
-			vx = 0.0;
-		}
+		vz = trace_transfer();
+		vx = 0.0;
 
 	}
 
@@ -251,7 +253,7 @@ void T_inter(float inter_x, float inter_y, float rad_ori) {
 			}
 		} else if (dir_now == 3) {
 			if (done == 0 && type_check(1)) {
-				relocateRobot(inter_x , inter_y - trace_dis, rad_ori);
+				relocateRobot(inter_x , inter_y + trace_dis, rad_ori);
 				done = 1;
 			}
 			if (done == 1 && type_check(2)) {
@@ -359,7 +361,7 @@ void trace_limit_val() {
 }
 
 bool type_check(int type) { //確認特徵點，更新座標
-	int black_line_val = 2900; //大於是黑
+	int black_line_val = 2700; //大於是黑
 	int black_center_val = 4000;
 
 	switch (type) {
@@ -408,14 +410,14 @@ bool type_check(int type) { //確認特徵點，更新座標
 		break;
 	case 6: //右轉確認—單邊
 
-		if ((adcRead[5] >= black_line_val || adcRead[6] >= black_line_val) && (adcRead[4] >= black_line_val))
+		if ((adcRead[5] >= black_line_val || adcRead[6] >= black_line_val) && (adcRead[3] >= black_line_val || adcRead[3] >= black_line_val))
 			return 1;
 		else
 			return 0;
 		break;
 	case 7: //左轉確認-單邊
 
-		if ((adcRead[5] >= black_line_val || adcRead[6] >= black_line_val) && adcRead[1] >= black_line_val)
+		if ((adcRead[5] >= black_line_val || adcRead[6] >= black_line_val) && (adcRead[0] >= black_line_val))
 			return 1;
 		else
 			return 0;

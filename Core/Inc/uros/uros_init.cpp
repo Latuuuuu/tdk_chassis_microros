@@ -13,6 +13,7 @@
 
 float vx = 0.0 ,vy = 0.0 ,vz = 0.0;
 int trace_mode = 0, inter_goal =0;
+int mission_control = 0;
 
 rcl_publisher_t           pose_pub;
 nav_msgs__msg__Odometry   pose_msg;
