@@ -7,7 +7,7 @@
 #include <cmath>
 #include <algorithm>
 
-#define trace_dis 10
+#define trace_dis 20
 #define Pi 3.1415926
 
 extern ADC_HandleTypeDef hadc1;
