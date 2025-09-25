@@ -72,6 +72,7 @@ void trace() {
 	} else if (trace_mode == 2) {
 		if (last_trace_mode == 1) {
 			ach_state = 0;
+			last_dir = dir_now;
 		}
 		inter_goal_select();
 		test = turn_check(inter_goal_x, inter_goal_y, inter_goal_w);
