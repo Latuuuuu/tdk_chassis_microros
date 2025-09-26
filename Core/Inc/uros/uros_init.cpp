@@ -207,15 +207,16 @@ void cmd_vel_sub_cb(const void* msgin) {
   vx = cmd_vel_msg.linear.x;
   vy = cmd_vel_msg.linear.y;
   vz = cmd_vel_msg.angular.z;
-  if(cmd_vel_msg.linear.z <=0.0){
-	  trace_mode = 0.0;
-  }
-  else if(cmd_vel_msg.linear.z >=0.9 || cmd_vel_msg.linear.z <=1.1){
-	  trace_mode = 1;
-  }
-  else if(cmd_vel_msg.linear.z >=1.9 || cmd_vel_msg.linear.z <=2.1){
-  	  trace_mode = 2;
-  }
+  // if(cmd_vel_msg.linear.z <=0.0){
+	//   trace_mode = 0.0;
+  // }
+  // else if(cmd_vel_msg.linear.z == 1.0){
+	//   trace_mode = 1;
+  // }
+  // else if(cmd_vel_msg.linear.z >=1.9 || cmd_vel_msg.linear.z <=2.1){
+  // 	  trace_mode = 2;
+  // }
+  trace_mode = (int)cmd_vel_msg.linear.z;
   inter_goal = (int)cmd_vel_msg.angular.y;
 
 

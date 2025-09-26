@@ -1,4 +1,4 @@
-../Core/Src/main_program/trace.cpp:52:6:void trace()	9
+../Core/Src/main_program/trace.cpp:52:6:void trace()	14
 ../Core/Src/main_program/trace.cpp:101:6:void trace_init()	1
 ../Core/Src/main_program/trace.cpp:105:7:float trace_transfer()	1
 ../Core/Src/main_program/trace.cpp:116:6:void trace_line()	6

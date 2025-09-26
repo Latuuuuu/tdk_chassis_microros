@@ -70,23 +70,23 @@ void trace() {
 			vz = 0.0;
 		}
 	} else if (trace_mode == 2) {
-//		if (last_trace_mode == 1) {
-//			ach_state = 0;
-//			last_dir = dir_now;
-//		}
-//		inter_goal_select();
-//		test = turn_check(inter_goal_x, inter_goal_y, inter_goal_w);
-//		if ((ach_state == 3|| dir_now != last_dir) && test == 1) {
-//			ach_state = 3.0;
-//			vx = 0.0;
-//			vy = 0.0;
-//			vz = 0.0;
-//			turn_finish = 1;
-//		} else if (test == 2) {
-//			ach_state = 0;
-//			vx = 0;
-//			vy = 0;
-//		}
+		if (last_trace_mode == 1) {
+			ach_state = 0;
+			last_dir = dir_now;
+		}
+		inter_goal_select();
+		test = turn_check(inter_goal_x, inter_goal_y, inter_goal_w);
+		if ((ach_state == 3|| dir_now != last_dir) && test == 1) {
+			ach_state = 3.0;
+			vx = 0.0;
+			vy = 0.0;
+			vz = 0.0;
+			turn_finish = 1;
+		} else if (test == 2) {
+			ach_state = 0;
+			// vx = 0;
+			// vy = 0;
+		}
 	} else {
 		if (last_trace_mode == 1){
 			vz = 0;
