@@ -39,8 +39,9 @@ extern rcl_timer_t pose_pub_timer;
 
 extern float vx ,vy, vz;
 extern int code;
-extern int trace_mode, ach_state, inter_goal;
-
+extern int trace_mode, inter_goal;
+extern int ach_state;
+extern int test;
 
 
 bool cubemx_transport_open(struct uxrCustomTransport * transport);
@@ -77,7 +78,7 @@ void uros_destroy_entities(void);
 void cmd_vel_sub_cb(const void* msgin);
 void pose_pub_timer_cb(rcl_timer_t * timer, int64_t last_call_time);
 
-void update_pose(float pos_x, float pos_y, float pos_z, float vel_x, float vel_y, float vel_z,float ach_state);
+void update_pose(float pos_x, float pos_y, float pos_z, float vel_x, float vel_y, float vel_z,float ach_state,int test);
 
 #ifdef __cplusplus
 }
