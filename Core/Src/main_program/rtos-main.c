@@ -52,7 +52,7 @@ void StartDefaultTask(void *argument)
 //    HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_1);
 //    HAL_TIM_Encoder_Start(&htim2, TIM_CHANNEL_ALL);
     trace_init();
-    relocateRobot(0.0, 0.0, 0.0);
+    relocateRobot(0.0, -50.0, 0.0);
     for(;;)
     {
         uros_agent_status_check();
