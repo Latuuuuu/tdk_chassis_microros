@@ -1,7 +1,12 @@
 Core/Inc/Control_Lib/chassis_ctrl/Src/chassis_monitor.o: \
  ../Core/Inc/Control_Lib/chassis_ctrl/Src/chassis_monitor.cpp \
+<<<<<<< HEAD
  /home/latuuu/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/Core/Inc/Control_Lib/chassis_ctrl/Inc/chassis.hpp \
  /home/latuuu/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/Core/Inc/Control_Lib/motor_ctrl/Inc/motor_ctrl.hpp \
+=======
+ /home/stanly/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/Core/Inc/Control_Lib/chassis_ctrl/Inc/chassis.hpp \
+ /home/stanly/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/Core/Inc/Control_Lib/motor_ctrl/Inc/motor_ctrl.hpp \
+>>>>>>> 328412cd8c0d153ca45d3aa610af95e2eb8c8b16
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -37,6 +42,7 @@ Core/Inc/Control_Lib/chassis_ctrl/Src/chassis_monitor.o: \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  ../Core/Inc/stm32f4xx_it.h \
  ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h \
+<<<<<<< HEAD
  /home/latuuu/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/Core/Inc/Control_Lib/motor_ctrl/Inc/motor_config.h \
  /home/latuuu/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/Core/Inc/Control_Lib/chassis_ctrl/Inc/chassis_config.h \
  /home/latuuu/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/Core/Inc/Control_Lib/motor_ctrl/Inc/motor_config.h \
@@ -45,6 +51,16 @@ Core/Inc/Control_Lib/chassis_ctrl/Src/chassis_monitor.o: \
  /home/latuuu/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/Core/Inc/Control_Lib/Pinpoint/Inc/Pinpoint.hpp
 /home/latuuu/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/Core/Inc/Control_Lib/chassis_ctrl/Inc/chassis.hpp:
 /home/latuuu/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/Core/Inc/Control_Lib/motor_ctrl/Inc/motor_ctrl.hpp:
+=======
+ /home/stanly/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/Core/Inc/Control_Lib/motor_ctrl/Inc/motor_config.h \
+ /home/stanly/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/Core/Inc/Control_Lib/chassis_ctrl/Inc/chassis_config.h \
+ /home/stanly/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/Core/Inc/Control_Lib/motor_ctrl/Inc/motor_config.h \
+ /home/stanly/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/Core/Inc/Control_Lib/chassis_ctrl/Inc/chassis_monitor.hpp \
+ /home/stanly/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/Core/Inc/Control_Lib/motor_ctrl/Inc/motor_monitor.hpp \
+ /home/stanly/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/Core/Inc/Control_Lib/Pinpoint/Inc/Pinpoint.hpp
+/home/stanly/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/Core/Inc/Control_Lib/chassis_ctrl/Inc/chassis.hpp:
+/home/stanly/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/Core/Inc/Control_Lib/motor_ctrl/Inc/motor_ctrl.hpp:
+>>>>>>> 328412cd8c0d153ca45d3aa610af95e2eb8c8b16
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:
@@ -80,9 +96,18 @@ Core/Inc/Control_Lib/chassis_ctrl/Src/chassis_monitor.o: \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 ../Core/Inc/stm32f4xx_it.h:
 ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h:
+<<<<<<< HEAD
 /home/latuuu/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/Core/Inc/Control_Lib/motor_ctrl/Inc/motor_config.h:
 /home/latuuu/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/Core/Inc/Control_Lib/chassis_ctrl/Inc/chassis_config.h:
 /home/latuuu/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/Core/Inc/Control_Lib/motor_ctrl/Inc/motor_config.h:
 /home/latuuu/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/Core/Inc/Control_Lib/chassis_ctrl/Inc/chassis_monitor.hpp:
 /home/latuuu/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/Core/Inc/Control_Lib/motor_ctrl/Inc/motor_monitor.hpp:
 /home/latuuu/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/Core/Inc/Control_Lib/Pinpoint/Inc/Pinpoint.hpp:
+=======
+/home/stanly/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/Core/Inc/Control_Lib/motor_ctrl/Inc/motor_config.h:
+/home/stanly/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/Core/Inc/Control_Lib/chassis_ctrl/Inc/chassis_config.h:
+/home/stanly/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/Core/Inc/Control_Lib/motor_ctrl/Inc/motor_config.h:
+/home/stanly/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/Core/Inc/Control_Lib/chassis_ctrl/Inc/chassis_monitor.hpp:
+/home/stanly/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/Core/Inc/Control_Lib/motor_ctrl/Inc/motor_monitor.hpp:
+/home/stanly/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/Core/Inc/Control_Lib/Pinpoint/Inc/Pinpoint.hpp:
+>>>>>>> 328412cd8c0d153ca45d3aa610af95e2eb8c8b16

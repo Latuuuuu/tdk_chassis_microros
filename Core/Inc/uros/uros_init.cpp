@@ -207,15 +207,16 @@ void cmd_vel_sub_cb(const void* msgin) {
   vx = cmd_vel_msg.linear.x;
   vy = cmd_vel_msg.linear.y;
   vz = cmd_vel_msg.angular.z;
-  if(cmd_vel_msg.linear.z <=0.0){
-	  trace_mode = 0.0;
-  }
-  else if(cmd_vel_msg.linear.z >=0.9 || cmd_vel_msg.linear.z <=1.1){
-	  trace_mode = 1;
-  }
-  else if(cmd_vel_msg.linear.z >=1.9 || cmd_vel_msg.linear.z <=2.1){
-  	  trace_mode = 2;
-  }
+  // if(cmd_vel_msg.linear.z <=0.0){
+	//   trace_mode = 0.0;
+  // }
+  // else if(cmd_vel_msg.linear.z == 1.0){
+	//   trace_mode = 1;
+  // }
+  // else if(cmd_vel_msg.linear.z >=1.9 || cmd_vel_msg.linear.z <=2.1){
+  // 	  trace_mode = 2;
+  // }
+  trace_mode = (int)cmd_vel_msg.linear.z;
   inter_goal = (int)cmd_vel_msg.angular.y;
 
 
@@ -263,7 +264,7 @@ void cmd_vel_sub_cb(const void* msgin) {
 //  last_cmd_vel_time = current_time;
 }
 
-void update_pose(float pos_x, float pos_y, float pos_z, float vel_x, float vel_y, float vel_z,float ach_state){
+void update_pose(float pos_x, float pos_y, float pos_z, float vel_x, float vel_y, float vel_z,float ach_state,int test){
   pose_msg.pose.pose.position.x = pos_x;
   pose_msg.pose.pose.position.y = pos_y;
   pose_msg.pose.pose.orientation.z = pos_z;
@@ -271,6 +272,7 @@ void update_pose(float pos_x, float pos_y, float pos_z, float vel_x, float vel_y
   pose_msg.twist.twist.linear.y = vel_y;
   pose_msg.twist.twist.angular.z = vel_z;
   pose_msg.pose.pose.orientation.x = ach_state;
+  pose_msg.twist.twist.angular.x = (float)test;
 }
 
 

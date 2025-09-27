@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /home/latuuu/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/Core/Inc/Control_Lib/chassis_ctrl/Inc/chassis.hpp:20:9:Chassis::Chassis(MotorController*, MotorController*, MotorController*, MotorController*)	24	static
+=======
+/home/stanly/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/Core/Inc/Control_Lib/chassis_ctrl/Inc/chassis.hpp:20:9:Chassis::Chassis(MotorController*, MotorController*, MotorController*, MotorController*)	24	static
+>>>>>>> 328412cd8c0d153ca45d3aa610af95e2eb8c8b16
 ../Core/Inc/Control_Lib/chassis_ctrl/Src/chassis_monitor.cpp:21:6:void chassis_monitor()	8	static
 ../Core/Inc/Control_Lib/chassis_ctrl/Src/chassis_monitor.cpp:30:6:void chassis_set_speed(float, float, float)	24	static
 ../Core/Inc/Control_Lib/chassis_ctrl/Src/chassis_monitor.cpp:36:6:void chassis_give_speed()	4	static

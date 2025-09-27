@@ -94,8 +94,13 @@ all:
 main-build: tdk_chassis_microros.elf secondary-outputs
 
 # Tool invocations
+<<<<<<< HEAD
 tdk_chassis_microros.elf tdk_chassis_microros.map: $(OBJS) $(USER_OBJS) /home/latuuu/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/STM32F446RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	arm-none-eabi-g++ -o "tdk_chassis_microros.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/home/latuuu/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="tdk_chassis_microros.map" -Wl,--gc-sections -static -L"/home/latuuu/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/micro_ros_stm32cubemx_utils/microros_static_library_ide/libmicroros" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+=======
+tdk_chassis_microros.elf tdk_chassis_microros.map: $(OBJS) $(USER_OBJS) /home/stanly/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/STM32F446RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-g++ -o "tdk_chassis_microros.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/home/stanly/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="tdk_chassis_microros.map" -Wl,--gc-sections -static -L"/home/stanly/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/micro_ros_stm32cubemx_utils/microros_static_library_ide/libmicroros" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+>>>>>>> 328412cd8c0d153ca45d3aa610af95e2eb8c8b16
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -115,7 +120,11 @@ clean:
 	-@echo ' '
 
 pre-build:
+<<<<<<< HEAD
 	docker pull microros/micro_ros_static_library_builder:humble && docker run --rm -v /home/latuuu/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros:/project --env MICROROS_LIBRARY_FOLDER=micro_ros_stm32cubemx_utils/microros_static_library_ide microros/micro_ros_static_library_builder:humble
+=======
+	docker pull microros/micro_ros_static_library_builder:humble && docker run --rm -v /home/stanly/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros:/project --env MICROROS_LIBRARY_FOLDER=micro_ros_stm32cubemx_utils/microros_static_library_ide microros/micro_ros_static_library_builder:humble
+>>>>>>> 328412cd8c0d153ca45d3aa610af95e2eb8c8b16
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)

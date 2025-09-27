@@ -1,2 +1,2 @@
 ../Core/Src/main_program/rtos-main.c:43:6:StartDefaultTask	1
-../Core/Src/main_program/rtos-main.c:63:6:HAL_TIM_PeriodElapsedCallback	3
+../Core/Src/main_program/rtos-main.c:67:6:HAL_TIM_PeriodElapsedCallback	3

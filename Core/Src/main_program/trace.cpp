@@ -16,8 +16,8 @@ extern Chassis chassis;
 extern PinpointI2C::BulkData bd;
 extern int trace_mode;
 extern float vx, vy, vz;
-extern int ach_state, inter_goal;
-
+extern int inter_goal;
+int ach_state = 1;
 float vx1, vy1, vz1;
 float w_kp = 0.2;
 float w_kd = 0.0;
@@ -30,7 +30,7 @@ struct intersection inter_1 = { 83.0, 616.0, 120.0, 43.0 }; //cm
 struct intersection inter_2 = { 0.0, 616.0, 40.0, -40.0 }; //cm
 struct intersection inter_3 = { -81.0, 616.0, -41.0, -116.0 }; //cm
 struct intersection inter_4 = { -151.0, 616.0, -116.0, -191.0 }; //cm
-struct intersection inter_5 = { -267.0, 616.0, -307.0, -227.0 }; //cm
+struct intersection inter_5 = { -267.0, 616.0, -227.0, -307.0 }; //cm
 struct intersection inter_6 = { -487.0, 335.0, -447.0, -527.0 }; //cm
 
 intersection* inter_set[6] = { &inter_1, &inter_2, &inter_3, &inter_4, &inter_5,&inter_6 };
@@ -58,7 +58,7 @@ void trace() {
 			done = 0;
 		}
 		if (done == 2) {
-			ach_state = 2;
+			ach_state = 2.0;
 			vx = 0.0;
 			vy = 0.0;
 			vz = 0.0;
@@ -77,20 +77,21 @@ void trace() {
 		inter_goal_select();
 		test = turn_check(inter_goal_x, inter_goal_y, inter_goal_w);
 		if ((ach_state == 3|| dir_now != last_dir) && test == 1) {
-			ach_state = 3;
+			ach_state = 3.0;
 			vx = 0.0;
 			vy = 0.0;
 			vz = 0.0;
 			turn_finish = 1;
 		} else if (test == 2) {
 			ach_state = 0;
-//			chassis.setSpeed(0.0, 0.0, vz);
+			// vx = 0;
+			// vy = 0;
 		}
 	} else {
 		if (last_trace_mode == 1){
 			vz = 0;
 		}
-		ach_state = 1;
+		ach_state = 1.0;
 		last_dir = dir_now;
 	}
 	trace_check_point();
@@ -411,14 +412,14 @@ bool type_check(int type) { //確認特徵點，更新座標
 		break;
 	case 6: //右轉確認—單邊
 
-		if ((adcRead[5] >= black_line_val || adcRead[6] >= black_line_val) && (adcRead[3] >= black_line_val || adcRead[3] >= black_line_val))
+		if ((adcRead[5] >= black_line_val || adcRead[6] >= black_line_val) || (adcRead[3] >= black_line_val || adcRead[3] >= black_line_val))
 			return 1;
 		else
 			return 0;
 		break;
 	case 7: //左轉確認-單邊
 
-		if ((adcRead[5] >= black_line_val || adcRead[6] >= black_line_val) && (adcRead[0] >= black_line_val))
+		if ((adcRead[5] >= black_line_val || adcRead[6] >= black_line_val) || (adcRead[0] >= black_line_val))
 			return 1;
 		else
 			return 0;
