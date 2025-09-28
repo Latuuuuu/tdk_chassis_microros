@@ -39,6 +39,7 @@ bool type_check(int type);
 void loc_inter();
 void dir_check();
 void T_inter(float inter_x, float inter_y, float rad_ori);
+void T_inter_5(float inter_x, float inter_y, float rad_ori);
 void trace();
 int turn_check(float x_now,float y_now,float w_now);
 void inter_goal_select();
