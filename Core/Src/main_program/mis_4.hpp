@@ -13,7 +13,8 @@ extern "C" {
 #endif
 
 // 函式宣告
-void mis_4();
+void mis_4_L();
+void mis_4_R();
 
 
 #ifdef __cplusplus
