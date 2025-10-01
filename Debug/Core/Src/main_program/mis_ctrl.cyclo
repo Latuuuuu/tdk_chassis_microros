@@ -1,0 +1,4 @@
+../Core/Src/main_program/mis_ctrl.cpp:9:6:void change_mis_state()	3
+../Core/Src/main_program/mis_ctrl.cpp:18:5:int get_tens_digit(int)	2
+../Core/Src/main_program/mis_ctrl.cpp:24:5:int get_units_digit(int)	2
+../Core/Src/main_program/mis_ctrl.cpp:29:6:void set_default_position()	11

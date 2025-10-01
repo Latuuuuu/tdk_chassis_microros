@@ -5,12 +5,13 @@
 //#include "motor_ctrl.hpp"
 #include "timers.h"
 #include "motor_monitor.hpp"
-#include "trace.hpp"
 #include "uros_init.h"
 #include "motor_config.h"
 #include "chassis_monitor.hpp"
 #include "Pinpoint_monitor.hpp"
 #include "chassis_config.h"
+#include "trace_L.hpp"
+#include "trace_R.hpp"
 
 extern TIM_HandleTypeDef htim1;
 extern TIM_HandleTypeDef htim2;
@@ -29,8 +30,10 @@ double currentsp = 0;
 int sec = 0,tct = 0;
 float temp=0;
 int trace_mode1 = 0;
-int a = 0;
 extern int test;
+extern int mis_dir;
+extern int ach_state;
+
 //extern int trace_mode;
 
 //PinpointI2C pinpoint(&hi2c1);
@@ -52,10 +55,10 @@ void StartDefaultTask(void *argument)
 //    HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_1);
 //    HAL_TIM_Encoder_Start(&htim2, TIM_CHANNEL_ALL);
     trace_init();
-    relocateRobot(0.0, -50.0, 0.0);
+//    relocateRobot(0.0, -50.0, 0.0);
 //    relocateRobot(-267.0, 616.0, 1.5*3.1415926);
 //    relocateRobot(-267.0, 616.0, 0.5*3.1415926);
-
+//    relocateRobot(0.0, -50.0, 0.0);
 //    relocateRobot(0.0, 580.0, 0.0);
     for(;;)
     {
@@ -72,14 +75,15 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		sec++;
 		tct++;
 
-//		if(trace_mode == 1){chassis_set_speed(0.0, vy, vz);}
-//		else {
 		chassis_set_speed(vx, vy, vz);
-//		}
 		update_chassis_pose();
 		chassis_give_speed();
-		trace();
-		update_pose(pos_x, pos_y, pos_z, vel_x, vel_y, vel_z,(float)ach_state,test);
+		if (mis_dir == 1){
+			trace_L();
+		}else if (mis_dir == 2){
+			trace_R();
+		}
+		update_pose(pos_x, pos_y, pos_z, vel_x, vel_y, vel_z,(float)ach_state);
 //		if (trace_mode){
 //		}else{
 //			chassis_monitor();

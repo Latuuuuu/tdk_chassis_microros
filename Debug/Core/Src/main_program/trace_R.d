@@ -1,5 +1,5 @@
-Core/Src/main_program/trace.o: ../Core/Src/main_program/trace.cpp \
- ../Core/Src/main_program/trace.hpp \
+Core/Src/main_program/trace_R.o: ../Core/Src/main_program/trace_R.cpp \
+ ../Core/Src/main_program/trace_R.hpp \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -229,7 +229,7 @@ Core/Src/main_program/trace.o: ../Core/Src/main_program/trace.cpp \
  /home/ling/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/Core/Inc/uros/config.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
-../Core/Src/main_program/trace.hpp:
+../Core/Src/main_program/trace_R.hpp:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:

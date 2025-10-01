@@ -31,20 +31,19 @@ extern "C" {
 
 
 
-void trace_init();            // Initialize infrared sensor
-float trace_transfer();   // Output: the rotation speed. Compute the offset from straight line
-void trace_line();
-void trace_check_point();     // Check if the car reach the check point and refresh the current true location
-bool type_check(int type);
-void loc_inter();
-void dir_check();
-void T_inter(float inter_x, float inter_y, float rad_ori);
-void T_inter_5(float inter_x, float inter_y, float rad_ori);
-void trace();
-int turn_check(float x_now,float y_now,float w_now);
-void inter_goal_select();
-void set_limit_dir_val();
-void trace_limit_val();
+void trace_L();               // Main trace function for left direction
+static float trace_transfer();   // Output: the rotation speed. Compute the offset from straight line
+static void trace_line();
+static void trace_check_point();     // Check if the car reach the check point and refresh the current true location
+static bool type_check(int type);
+static void loc_inter();
+static void dir_check();
+static void T_inter(float inter_x, float inter_y, float rad_ori);
+static void T_inter_5(float inter_x, float inter_y, float rad_ori);
+static int turn_check(float x_now,float y_now,float w_now);
+static void inter_goal_select();
+static void set_limit_dir_val();
+static void trace_limit_val();
 
 struct intersection{
 	float _x;

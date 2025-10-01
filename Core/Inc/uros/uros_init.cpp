@@ -13,12 +13,15 @@
 
 float vx = 0.0 ,vy = 0.0 ,vz = 0.0;
 int trace_mode = 0, inter_goal =0;
-int mission_control = 0;
+int mission_control = 0; // receive from mission stm32
+int ach_state = 1;
 
 rcl_publisher_t           pose_pub;
 nav_msgs__msg__Odometry   pose_msg;
 rcl_subscription_t        cmd_vel_sub;
 geometry_msgs__msg__Twist cmd_vel_msg;
+rcl_subscription_t        mission_sub;
+std_msgs__msg__Int32 	  mission_msg;
 rcl_timer_t pose_pub_timer;
 
 // 用于计算积分的变量
@@ -168,13 +171,20 @@ void uros_create_entities(void) {
   cmd_vel_msg.angular.y = 0.0;
   cmd_vel_msg.angular.z = 0.0;
 
+  rclc_subscription_init_default(                                               // Initialize subscriber for command velocity
+    &mission_sub,
+    &node,
+    ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Int32),
+    "mission_starter");
+  mission_msg.data = 0.0;
 
   rclc_timer_init_default(&pose_pub_timer, &support, RCL_MS_TO_NS(10), pose_pub_timer_cb);
 
   
-  rclc_executor_init(&executor, &support.context, 2, &allocator); // Create executor (1 timer + 2 subscriptions)
+  rclc_executor_init(&executor, &support.context, 3, &allocator); // Create executor (1 timer + 2 subscriptions)
 
   rclc_executor_add_subscription(&executor, &cmd_vel_sub, &cmd_vel_msg, &cmd_vel_sub_cb, ON_NEW_DATA); // Add subscriber to executor
+  rclc_executor_add_subscription(&executor, &mission_sub, &mission_msg, &mission_sub_cb, ON_NEW_DATA); // Add subscriber to executor
   rclc_executor_add_timer(&executor, &pose_pub_timer); // Add timer to executor
 }
 void uros_destroy_entities(void) {
@@ -194,9 +204,19 @@ void uros_destroy_entities(void) {
   rclc_support_fini(&support);
 }
 
+void mission_sub_cb(const void* msgin) {
+  const std_msgs__msg__Int32 * msg = (const std_msgs__msg__Int32 *)msgin;
+  
+  // 检查消息指针是否有效
+  if (msg == NULL) {
+    return;
+  }
+  mission_control = msg->data;
+}
+
 void cmd_vel_sub_cb(const void* msgin) {
   const geometry_msgs__msg__Twist * msg = (const geometry_msgs__msg__Twist *)msgin;
-  
+
   // 检查消息指针是否有效
   if (msg == NULL) {
     return;
@@ -264,15 +284,14 @@ void cmd_vel_sub_cb(const void* msgin) {
 //  last_cmd_vel_time = current_time;
 }
 
-void update_pose(float pos_x, float pos_y, float pos_z, float vel_x, float vel_y, float vel_z,float ach_state,int test){
-  pose_msg.pose.pose.position.x = pos_x;
+void update_pose(float pos_x, float pos_y, float pos_z, float vel_x, float vel_y, float vel_z,float ach_state){
   pose_msg.pose.pose.position.y = pos_y;
   pose_msg.pose.pose.orientation.z = pos_z;
   pose_msg.twist.twist.linear.x = vel_x;
   pose_msg.twist.twist.linear.y = vel_y;
   pose_msg.twist.twist.angular.z = vel_z;
   pose_msg.pose.pose.orientation.x = ach_state;
-  pose_msg.twist.twist.angular.x = (float)test;
+//  pose_msg.twist.twist.angular.x = (float)test;
 }
 
 

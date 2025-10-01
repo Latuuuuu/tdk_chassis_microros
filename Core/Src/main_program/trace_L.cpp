@@ -1,4 +1,4 @@
-#include "trace.hpp"
+#include "trace_L.hpp"
 #include "chassis_monitor.hpp"
 #include "chassis.hpp"
 #include "Pinpoint_monitor.hpp"
@@ -17,39 +17,34 @@ extern PinpointI2C::BulkData bd;
 extern int trace_mode;
 extern float vx, vy, vz;
 extern int inter_goal;
-int ach_state = 1;
-float vx1, vy1, vz1;
-float w_kp = 0.2;
-float w_kd = 0.0;
-//float Pi = 3.1415;
+extern int ach_state;
+static float w_kp = 0.2;
+static float w_kd = 0.0;
+
 /*-----Variable for computing the offset from black line-----*/
-float weight_err = 0.0, weight_change = 0.0, weight_lastTime = 0.0;
-float cmd_W = 0.0;
+static float weight_err = 0.0, weight_change = 0.0, weight_lastTime = 0.0;
+static float cmd_W = 0.0;
 using intersection = struct intersection;
-struct intersection inter_1 = { 83.0, 616.0, 120.0, 43.0 }; //cm
-struct intersection inter_2 = { 0.0, 616.0, 40.0, -40.0 }; //cm
-struct intersection inter_3 = { -81.0, 616.0, -41.0, -116.0 }; //cm
-struct intersection inter_4 = { -151.0, 616.0, -116.0, -191.0 }; //cm
-struct intersection inter_5 = { -267.0, 616.0, -227.0, -307.0 }; //cm
-struct intersection inter_6 = { -487.0, 335.0, -447.0, -527.0 }; //cm
+static struct intersection inter_1 = { 83.0, 616.0, 120.0, 43.0 }; //cm
+static struct intersection inter_2 = { 0.0, 616.0, 40.0, -40.0 }; //cm
+static struct intersection inter_3 = { -81.0, 616.0, -41.0, -116.0 }; //cm
+static struct intersection inter_4 = { -151.0, 616.0, -116.0, -191.0 }; //cm
+static struct intersection inter_5 = { -267.0, 616.0, -227.0, -307.0 }; //cm
+static struct intersection inter_6 = { -487.0, 335.0, -437.0, -537.0 }; //cm
 
-intersection* inter_set[6] = { &inter_1, &inter_2, &inter_3, &inter_4, &inter_5,&inter_6 };
+static intersection* inter_set[6] = { &inter_1, &inter_2, &inter_3, &inter_4, &inter_5,&inter_6 };
 
-int inter_now = 0; //表無路口
-int dir_now = 0;
-float w_trace = 0;
-int done = 0;
-float inter_goal_x = 0.0, inter_goal_y = 0.0, inter_goal_w = 0.0;
-int last_trace_mode = 0; // for set original limit val
-float limit_val = 0.0; //original val for limit before trace
-int limit_dir = 0; //1:x 2:y select limit which dir
-extern int inter_goal;
-bool turn_finish = 0;
-int last_dir = 0;
-bool allow_turn = 1;
-int test;
+static int inter_now = 0; //表無路口
+static int dir_now = 0;
+static int done = 0;
+static float inter_goal_x = 0.0, inter_goal_y = 0.0, inter_goal_w = 0.0;
+static int last_trace_mode = 0; // for set original limit val
+static float limit_val = 0.0; //original val for limit before trace
+static int limit_dir = 0; //1:x 2:y select limit which dir
+static int last_dir = 0;
+static int test;
 
-void trace() {
+void trace_L() {
  	if (trace_mode == 1) {
 		if (last_trace_mode == 2 || last_trace_mode == 0) {
 			set_limit_dir_val();
@@ -76,12 +71,11 @@ void trace() {
 		}
 		inter_goal_select();
 		test = turn_check(inter_goal_x, inter_goal_y, inter_goal_w);
-		if ((ach_state == 3|| dir_now != last_dir) && test == 1) {
+		if ((ach_state == 3 || dir_now != last_dir) && test == 1) {
 			ach_state = 3.0;
 			vx = 0.0;
 			vy = 0.0;
 			vz = 0.0;
-			turn_finish = 1;
 		} else if (test == 2) {
 			ach_state = 0;
 			// vx = 0;
@@ -98,11 +92,9 @@ void trace() {
 	last_trace_mode = trace_mode;
 }
 
-void trace_init() {
-	HAL_ADC_Start_DMA(&hadc1, (uint32_t*) adcRead, 7);
-}
 
-float trace_transfer() { //vz>0 ：逆時針
+
+static float trace_transfer() { //vz>0 ：逆時針
 	weight_err = ((float) (-4.0 * adcRead[0] - adcRead[1] + adcRead[3]
 			+ 6.0 * adcRead[4])
 			/ (float) (adcRead[0] + adcRead[1] + adcRead[2] + adcRead[3]
@@ -113,7 +105,7 @@ float trace_transfer() { //vz>0 ：逆時針
 	return cmd_W;
 }
 
-void trace_line() {
+static void trace_line() {
 	int temp;
 		if ((inter_now - 1) < 0){
 			temp = 0;
@@ -127,11 +119,9 @@ void trace_line() {
 		vx = 0.0;
 
 	}
-
-//	chassis.setSpeed(vx, vy, w_trace);
 }
 
-void inter_goal_select(){
+static void inter_goal_select(){
 	int temp;
 	if ((inter_now - 1) < 0){
 		temp = 0;
@@ -151,7 +141,7 @@ void inter_goal_select(){
 	}
 }
 
-void trace_check_point() {
+static void trace_check_point() {
 	loc_inter();
 	dir_check();
 	if (inter_now == 1) {
@@ -217,7 +207,7 @@ void trace_check_point() {
 	}
 }
 
-int turn_check(float x_now, float y_now, float w_now) {
+static int turn_check(float x_now, float y_now, float w_now) {
 	if (vz < 0) { //右轉
 		if (type_check(6)) {
 			relocateRobot(x_now, y_now, w_now );
@@ -233,7 +223,7 @@ int turn_check(float x_now, float y_now, float w_now) {
 	}
 	return 0;
 }
-void T_inter(float inter_x, float inter_y, float rad_ori) {
+static void T_inter(float inter_x, float inter_y, float rad_ori) {
 	if (inter_now == inter_goal) {
 		if (dir_now == 1) {
 			if (done == 0 && type_check(1)) {
@@ -274,7 +264,7 @@ void T_inter(float inter_x, float inter_y, float rad_ori) {
 		}
 	}
 }
-void T_inter_5(float inter_x, float inter_y, float rad_ori) {
+static void T_inter_5(float inter_x, float inter_y, float rad_ori) {
 	if (inter_now == inter_goal) {
 		if (dir_now == 1) {
 			if (done == 0 && type_check(1)) {
@@ -327,7 +317,7 @@ void T_inter_5(float inter_x, float inter_y, float rad_ori) {
 //		}
 //	}
 //}
-void loc_inter() {
+static void loc_inter() {
 	float _x = chassis.x;
 	float _y = chassis.y;
 	if (_y > 576.0 && _y < 656.0) {
@@ -344,7 +334,7 @@ void loc_inter() {
 		} else {
 			inter_now = 0;
 		}
-	} else if (_y > 295.0 && _y < 375.0) {
+	} else if (_y > 285.0 && _y < 385.0) {
 		if (_x < inter_6._b_xu && _x > inter_6._b_xl) {
 			inter_now = 6;
 		} else {
@@ -355,7 +345,7 @@ void loc_inter() {
 	}
 }
 
-void dir_check() { //0:know 1:up 2:left 3:down 4:right
+static void dir_check() { //0:know 1:up 2:left 3:down 4:right
 	float _dir = chassis.theta;
 	if (_dir < 0.78539 || _dir > 5.4979) {
 		dir_now = 1;
@@ -369,7 +359,7 @@ void dir_check() { //0:know 1:up 2:left 3:down 4:right
 }
 
 
-void set_limit_dir_val(){
+static void set_limit_dir_val(){
 	if (dir_now == 1 || dir_now == 3){
 		limit_dir = 1;
 		limit_val = chassis.x;
@@ -378,7 +368,7 @@ void set_limit_dir_val(){
 		limit_val = chassis.y;
 	}
 }
-void trace_limit_val() {
+static void trace_limit_val() {
 	if (limit_dir == 1) {
 		if (chassis.x > limit_val + 2.0) {
 			chassis.x = limit_val + 2.0;
@@ -394,7 +384,7 @@ void trace_limit_val() {
 	}
 }
 
-bool type_check(int type) { //確認特徵點，更新座標
+static bool type_check(int type) { //確認特徵點，更新座標
 	int black_line_val = 2700; //大於是黑
 	int black_center_val = 4000;
 

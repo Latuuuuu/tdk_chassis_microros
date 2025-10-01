@@ -1,0 +1,13 @@
+../Core/Src/main_program/trace_L.cpp:47:6:void trace_L()	14
+../Core/Src/main_program/trace_L.cpp:97:14:float trace_transfer()	1
+../Core/Src/main_program/trace_L.cpp:108:13:void trace_line()	6
+../Core/Src/main_program/trace_L.cpp:124:13:void inter_goal_select()	6
+../Core/Src/main_program/trace_L.cpp:144:13:void trace_check_point()	31
+../Core/Src/main_program/trace_L.cpp:210:12:int turn_check(float, float, float)	5
+../Core/Src/main_program/trace_L.cpp:226:13:void T_inter(float, float, float)	30
+../Core/Src/main_program/trace_L.cpp:267:13:void T_inter_5(float, float, float)	20
+../Core/Src/main_program/trace_L.cpp:320:13:void loc_inter()	17
+../Core/Src/main_program/trace_L.cpp:348:13:void dir_check()	9
+../Core/Src/main_program/trace_L.cpp:362:13:void set_limit_dir_val()	5
+../Core/Src/main_program/trace_L.cpp:371:13:void trace_limit_val()	7
+../Core/Src/main_program/trace_L.cpp:387:13:bool type_check(int)	31
