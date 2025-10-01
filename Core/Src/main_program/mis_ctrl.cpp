@@ -10,6 +10,7 @@ void change_mis_state(){
 	if (last_mc == 0 && mission_control != 0){
 		mis_dir = get_tens_digit(mission_control);
 		mis_num = get_units_digit(mission_control);
+		set_default_position();
 	}
 	last_mc = mission_control;
 }

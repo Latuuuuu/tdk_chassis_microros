@@ -5,6 +5,7 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
+../Core/Src/main_program/mis_4.cpp \
 ../Core/Src/main_program/mis_ctrl.cpp \
 ../Core/Src/main_program/trace_L.cpp \
 ../Core/Src/main_program/trace_R.cpp 
@@ -16,12 +17,14 @@ C_DEPS += \
 ./Core/Src/main_program/rtos-main.d 
 
 OBJS += \
+./Core/Src/main_program/mis_4.o \
 ./Core/Src/main_program/mis_ctrl.o \
 ./Core/Src/main_program/rtos-main.o \
 ./Core/Src/main_program/trace_L.o \
 ./Core/Src/main_program/trace_R.o 
 
 CPP_DEPS += \
+./Core/Src/main_program/mis_4.d \
 ./Core/Src/main_program/mis_ctrl.d \
 ./Core/Src/main_program/trace_L.d \
 ./Core/Src/main_program/trace_R.d 
@@ -36,7 +39,7 @@ Core/Src/main_program/%.o Core/Src/main_program/%.su Core/Src/main_program/%.cyc
 clean: clean-Core-2f-Src-2f-main_program
 
 clean-Core-2f-Src-2f-main_program:
-	-$(RM) ./Core/Src/main_program/mis_ctrl.cyclo ./Core/Src/main_program/mis_ctrl.d ./Core/Src/main_program/mis_ctrl.o ./Core/Src/main_program/mis_ctrl.su ./Core/Src/main_program/rtos-main.cyclo ./Core/Src/main_program/rtos-main.d ./Core/Src/main_program/rtos-main.o ./Core/Src/main_program/rtos-main.su ./Core/Src/main_program/trace_L.cyclo ./Core/Src/main_program/trace_L.d ./Core/Src/main_program/trace_L.o ./Core/Src/main_program/trace_L.su ./Core/Src/main_program/trace_R.cyclo ./Core/Src/main_program/trace_R.d ./Core/Src/main_program/trace_R.o ./Core/Src/main_program/trace_R.su
+	-$(RM) ./Core/Src/main_program/mis_4.cyclo ./Core/Src/main_program/mis_4.d ./Core/Src/main_program/mis_4.o ./Core/Src/main_program/mis_4.su ./Core/Src/main_program/mis_ctrl.cyclo ./Core/Src/main_program/mis_ctrl.d ./Core/Src/main_program/mis_ctrl.o ./Core/Src/main_program/mis_ctrl.su ./Core/Src/main_program/rtos-main.cyclo ./Core/Src/main_program/rtos-main.d ./Core/Src/main_program/rtos-main.o ./Core/Src/main_program/rtos-main.su ./Core/Src/main_program/trace_L.cyclo ./Core/Src/main_program/trace_L.d ./Core/Src/main_program/trace_L.o ./Core/Src/main_program/trace_L.su ./Core/Src/main_program/trace_R.cyclo ./Core/Src/main_program/trace_R.d ./Core/Src/main_program/trace_R.o ./Core/Src/main_program/trace_R.su
 
 .PHONY: clean-Core-2f-Src-2f-main_program
 

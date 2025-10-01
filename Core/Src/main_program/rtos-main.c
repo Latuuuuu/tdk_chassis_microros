@@ -12,6 +12,7 @@
 #include "chassis_config.h"
 #include "trace_L.hpp"
 #include "trace_R.hpp"
+#include "mis_ctrl.hpp"
 
 extern TIM_HandleTypeDef htim1;
 extern TIM_HandleTypeDef htim2;
@@ -21,18 +22,19 @@ extern TIM_HandleTypeDef htim5;
 extern TIM_HandleTypeDef htim8;
 extern I2C_HandleTypeDef hi2c1;
 
-uint16_t adcRead[7] = {0};
+uint16_t adcRead[7] = { 0 };
 
 double LastCNT = 0;
 double CNT = 500;
-int turn =0;
+int turn = 0;
 double currentsp = 0;
-int sec = 0,tct = 0;
-float temp=0;
+int sec = 0, tct = 0;
+float temp = 0;
 int trace_mode1 = 0;
 extern int test;
 extern int mis_dir;
 extern int ach_state;
+int emer = 0;
 
 //extern int trace_mode;
 
@@ -43,47 +45,49 @@ extern int ach_state;
 
 //void motorTimerCallback(TimerHandle_t xTimer);
 
-void StartDefaultTask(void *argument)
-{
+void StartDefaultTask(void *argument) {
 //    xTimer = xTimerCreate("MotorTimer", pdMS_TO_TICKS(1), pdTRUE, (void *)0, motorTimerCallback);
 //    xTimerStart(xTimer, 0);
 //    HAL_TIM_Encoder_Start(&htim1, TIM_CHANNEL_ALL);
 	HAL_TIM_Base_Start_IT(&htim5);
 	uros_init();
-    motor_init();
+	motor_init();
 //    pinpoint_init();
 //    HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_1);
 //    HAL_TIM_Encoder_Start(&htim2, TIM_CHANNEL_ALL);
-    trace_init();
-//    relocateRobot(0.0, -50.0, 0.0);
+	trace_init();
+	relocateRobot(0.0, -50.0, 0.0);
 //    relocateRobot(-267.0, 616.0, 1.5*3.1415926);
 //    relocateRobot(-267.0, 616.0, 0.5*3.1415926);
 //    relocateRobot(0.0, -50.0, 0.0);
 //    relocateRobot(0.0, 580.0, 0.0);
-    for(;;)
-    {
-        uros_agent_status_check();
-        osDelay(1000/FREQUENCY);
-    }
+	for (;;) {
+		uros_agent_status_check();
+		osDelay(1000 / FREQUENCY);
+	}
 }
 
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
-{
-  /* USER CODE BEGIN Callback 0 */
-	if (htim->Instance == TIM5)
-	{
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+	/* USER CODE BEGIN Callback 0 */
+	if (htim->Instance == TIM5) {
 		sec++;
 		tct++;
-
-		chassis_set_speed(vx, vy, vz);
-		update_chassis_pose();
-		chassis_give_speed();
-		if (mis_dir == 1){
-			trace_L();
-		}else if (mis_dir == 2){
-			trace_R();
+//		set_default_position();
+		if (emer == 1) {
+			mis_4();
+		} else {
+			change_mis_state();
+			chassis_set_speed(vx, vy, vz);
+			update_chassis_pose();
+			chassis_give_speed();
+			if (mis_dir == 1) {
+				trace_L();
+			} else if (mis_dir == 2) {
+				trace_R();
+			}
+			update_pose(pos_x, pos_y, pos_z, vel_x, vel_y, vel_z,
+					(float) ach_state);
 		}
-		update_pose(pos_x, pos_y, pos_z, vel_x, vel_y, vel_z,(float)ach_state);
 //		if (trace_mode){
 //		}else{
 //			chassis_monitor();
@@ -96,14 +100,13 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 //		}
 
 	}
-  /* USER CODE END Callback 0 */
-	if (htim->Instance == TIM6)
-	{
+	/* USER CODE END Callback 0 */
+	if (htim->Instance == TIM6) {
 		HAL_IncTick();
 	}
-  /* USER CODE BEGIN Callback 1 */
+	/* USER CODE BEGIN Callback 1 */
 //
-  /* USER CODE END Callback 1 */
+	/* USER CODE END Callback 1 */
 }
 
 //void motorTimerCallback(TimerHandle_t xTimer)
@@ -115,5 +118,4 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 //}
 //TODO:motor_PID,chassis,odometry,
 //TODO: check other PWM output
-
 

@@ -17,6 +17,7 @@
 "./Core/Src/syscalls.o"
 "./Core/Src/sysmem.o"
 "./Core/Src/system_stm32f4xx.o"
+"./Core/Src/main_program/mis_4.o"
 "./Core/Src/main_program/mis_ctrl.o"
 "./Core/Src/main_program/rtos-main.o"
 "./Core/Src/main_program/trace_L.o"

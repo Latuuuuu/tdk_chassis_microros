@@ -285,12 +285,13 @@ void cmd_vel_sub_cb(const void* msgin) {
 }
 
 void update_pose(float pos_x, float pos_y, float pos_z, float vel_x, float vel_y, float vel_z,float ach_state){
-  pose_msg.pose.pose.position.y = pos_y;
-  pose_msg.pose.pose.orientation.z = pos_z;
-  pose_msg.twist.twist.linear.x = vel_x;
-  pose_msg.twist.twist.linear.y = vel_y;
-  pose_msg.twist.twist.angular.z = vel_z;
-  pose_msg.pose.pose.orientation.x = ach_state;
+	pose_msg.pose.pose.position.x = pos_x;
+    pose_msg.pose.pose.position.y = pos_y;
+    pose_msg.pose.pose.orientation.z = pos_z;
+    pose_msg.twist.twist.linear.x = vel_x;
+    pose_msg.twist.twist.linear.y = vel_y;
+    pose_msg.twist.twist.angular.z = vel_z;
+    pose_msg.pose.pose.orientation.x = ach_state;
 //  pose_msg.twist.twist.angular.x = (float)test;
 }
 

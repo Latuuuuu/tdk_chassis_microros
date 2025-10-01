@@ -40,6 +40,7 @@ static void loc_inter();
 static void dir_check();
 static void T_inter(float inter_x, float inter_y, float rad_ori);
 static void T_inter_5(float inter_x, float inter_y, float rad_ori);
+static void T_inter_1(float inter_x, float inter_y, float rad_ori);
 static int turn_check(float x_now,float y_now,float w_now);
 static void inter_goal_select();
 static void set_limit_dir_val();

@@ -225,7 +225,8 @@ Core/Src/main_program/rtos-main.o: ../Core/Src/main_program/rtos-main.c \
  /home/ling/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/Core/Inc/Control_Lib/Pinpoint/Inc/Pinpoint_monitor.hpp \
  /home/ling/STM32CubeIDE/workspace_1.19.0/tdk_chassis_microros/Core/Inc/Control_Lib/chassis_ctrl/Inc/chassis_config.h \
  ../Core/Src/main_program/trace_L.hpp ../Core/Inc/stm32f4xx_it.h \
- ../Core/Src/main_program/trace_R.hpp
+ ../Core/Src/main_program/trace_R.hpp \
+ ../Core/Src/main_program/mis_ctrl.hpp
 ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h:
 ../Drivers/CMSIS/Include/core_cm4.h:
 ../Drivers/CMSIS/Include/cmsis_version.h:
@@ -454,3 +455,4 @@ Core/Src/main_program/rtos-main.o: ../Core/Src/main_program/rtos-main.c \
 ../Core/Src/main_program/trace_L.hpp:
 ../Core/Inc/stm32f4xx_it.h:
 ../Core/Src/main_program/trace_R.hpp:
+../Core/Src/main_program/mis_ctrl.hpp:

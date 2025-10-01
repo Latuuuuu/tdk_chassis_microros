@@ -146,13 +146,13 @@ static void trace_check_point() {
 	dir_check();
 	if (inter_now == 1) {
 		if (dir_now == 1) { //向左走
-			T_inter(inter_1._x, inter_1._y, 0);
+			T_inter_1(inter_1._x, inter_1._y, 0);
 		} else if (dir_now == 2) { //向下
-			T_inter(inter_1._x, inter_1._y, Pi / 2);
+			T_inter_1(inter_1._x, inter_1._y, Pi / 2);
 		} else if (dir_now == 3) { //向右
-			T_inter(inter_1._x, inter_1._y, Pi);
+			T_inter_1(inter_1._x, inter_1._y, Pi);
 		} else if (dir_now == 4) { // 向上
-			T_inter(inter_1._x, inter_1._y, 3 * Pi / 2);
+			T_inter_1(inter_1._x, inter_1._y, 3 * Pi / 2);
 		}
 	} else if (inter_now == 2) {
 		if (dir_now == 1) { //向左走
@@ -291,6 +291,39 @@ static void T_inter_5(float inter_x, float inter_y, float rad_ori) {
 			}
 		} else if (dir_now == 4) {
 			if (type_check(2)) {
+				relocateRobot(inter_x, inter_y, rad_ori);
+				done = 2;
+			}
+		}
+	}
+}
+static void T_inter_1(float inter_x, float inter_y, float rad_ori) {
+	if (inter_now == inter_goal) {
+		if (dir_now == 1) {
+			if (type_check(2)) {
+				relocateRobot(inter_x, inter_y, rad_ori);
+				done = 2;
+			}
+		} else if (dir_now == 2) {
+			if (done == 0 && type_check(1)) {
+				relocateRobot(inter_x + trace_dis, inter_y, rad_ori);
+				done = 1;
+			}
+			if (done == 1 && type_check(2)) {
+				relocateRobot(inter_x, inter_y, rad_ori);
+				done = 2;
+			}
+		} else if (dir_now == 3) {
+			if (type_check(2)) {
+				relocateRobot(inter_x, inter_y, rad_ori);
+				done = 2;
+			}
+		} else if (dir_now == 4) {
+			if (done == 0 && type_check(1)) {
+				relocateRobot(inter_x - trace_dis, inter_y , rad_ori);
+				done = 1;
+			}
+			if (done == 1 && type_check(2)) {
 				relocateRobot(inter_x, inter_y, rad_ori);
 				done = 2;
 			}

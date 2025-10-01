@@ -7,8 +7,9 @@
 ../Core/Src/main_program/trace_R.cpp:213:12:int turn_check(float, float, float)	24	static
 ../Core/Src/main_program/trace_R.cpp:229:13:void T_inter(float, float, float)	24	static
 ../Core/Src/main_program/trace_R.cpp:270:13:void T_inter_5(float, float, float)	24	static
-../Core/Src/main_program/trace_R.cpp:323:13:void loc_inter()	16	static
-../Core/Src/main_program/trace_R.cpp:351:13:void dir_check()	16	static
-../Core/Src/main_program/trace_R.cpp:365:13:void set_limit_dir_val()	4	static
-../Core/Src/main_program/trace_R.cpp:374:13:void trace_limit_val()	16	static
-../Core/Src/main_program/trace_R.cpp:390:13:bool type_check(int)	24	static
+../Core/Src/main_program/trace_R.cpp:303:13:void T_inter_1(float, float, float)	24	static
+../Core/Src/main_program/trace_R.cpp:356:13:void loc_inter()	16	static
+../Core/Src/main_program/trace_R.cpp:384:13:void dir_check()	16	static
+../Core/Src/main_program/trace_R.cpp:398:13:void set_limit_dir_val()	4	static
+../Core/Src/main_program/trace_R.cpp:407:13:void trace_limit_val()	16	static
+../Core/Src/main_program/trace_R.cpp:423:13:bool type_check(int)	24	static

@@ -98,8 +98,8 @@ void trace_init() {
 }
 
 static float trace_transfer() { //vz>0 ：逆時針
-	weight_err = ((float) (-4.0 * adcRead[0] - adcRead[1] + adcRead[3]
-			+ 6.0 * adcRead[4])
+	weight_err = ((float) (-6.0 * adcRead[0] - adcRead[1] + adcRead[3]
+			+ 4.0 * adcRead[4])
 			/ (float) (adcRead[0] + adcRead[1] + adcRead[2] + adcRead[3]
 					+ adcRead[4]));
 	weight_change = weight_err - weight_lastTime;
@@ -294,6 +294,39 @@ static void T_inter_5(float inter_x, float inter_y, float rad_ori) {
 			}
 		} else if (dir_now == 4) {
 			if (type_check(2)) {
+				relocateRobot(inter_x, inter_y, rad_ori);
+				done = 2;
+			}
+		}
+	}
+}
+static void T_inter_1(float inter_x, float inter_y, float rad_ori) {
+	if (inter_now == inter_goal) {
+		if (dir_now == 1) {
+			if (type_check(2)) {
+				relocateRobot(inter_x, inter_y, rad_ori);
+				done = 2;
+			}
+		} else if (dir_now == 2) {
+			if (done == 0 && type_check(1)) {
+				relocateRobot(inter_x + trace_dis, inter_y, rad_ori);
+				done = 1;
+			}
+			if (done == 1 && type_check(2)) {
+				relocateRobot(inter_x, inter_y, rad_ori);
+				done = 2;
+			}
+		} else if (dir_now == 3) {
+			if (type_check(2)) {
+				relocateRobot(inter_x, inter_y, rad_ori);
+				done = 2;
+			}
+		} else if (dir_now == 4) {
+			if (done == 0 && type_check(1)) {
+				relocateRobot(inter_x - trace_dis, inter_y , rad_ori);
+				done = 1;
+			}
+			if (done == 1 && type_check(2)) {
 				relocateRobot(inter_x, inter_y, rad_ori);
 				done = 2;
 			}

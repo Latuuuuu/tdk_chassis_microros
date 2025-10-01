@@ -6,8 +6,9 @@
 ../Core/Src/main_program/trace_L.cpp:210:12:int turn_check(float, float, float)	24	static
 ../Core/Src/main_program/trace_L.cpp:226:13:void T_inter(float, float, float)	24	static
 ../Core/Src/main_program/trace_L.cpp:267:13:void T_inter_5(float, float, float)	24	static
-../Core/Src/main_program/trace_L.cpp:320:13:void loc_inter()	16	static
-../Core/Src/main_program/trace_L.cpp:348:13:void dir_check()	16	static
-../Core/Src/main_program/trace_L.cpp:362:13:void set_limit_dir_val()	4	static
-../Core/Src/main_program/trace_L.cpp:371:13:void trace_limit_val()	16	static
-../Core/Src/main_program/trace_L.cpp:387:13:bool type_check(int)	24	static
+../Core/Src/main_program/trace_L.cpp:300:13:void T_inter_1(float, float, float)	24	static
+../Core/Src/main_program/trace_L.cpp:353:13:void loc_inter()	16	static
+../Core/Src/main_program/trace_L.cpp:381:13:void dir_check()	16	static
+../Core/Src/main_program/trace_L.cpp:395:13:void set_limit_dir_val()	4	static
+../Core/Src/main_program/trace_L.cpp:404:13:void trace_limit_val()	16	static
+../Core/Src/main_program/trace_L.cpp:420:13:bool type_check(int)	24	static
