@@ -85,8 +85,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 			} else if (mis_dir == 2) {
 				trace_R();
 			}
-			update_pose(pos_x, pos_y, pos_z, vel_x, vel_y, vel_z,
-					(float) ach_state);
+			update_pose(pos_x, pos_y, pos_z, vel_x, vel_y, vel_z,(float) ach_state);
 		}
 //		if (trace_mode){
 //		}else{
